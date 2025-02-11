@@ -1,12 +1,12 @@
 # Universidad de La Laguna
 # Escuela Superior de Ingeniería y Tecnología
 # Grado en Ingeniería Informática
-# Asignatura: Computabilidad y Algoritmia
-# Curso: 2º
-# Práctica 11
+# Asignatura: Diseño y Análisis de Algoritmos
+# Curso: 3º
+# Práctica 1
 # Autor: Enrique Gómez Díaz
 # Correo: alu0101550329@ull.edu.es
-# Fecha: 10/12/2024
+# Fecha: 11/02/2025
 # archivo Makefile para compilar el programa
 
 # Nombre del compilador
@@ -20,7 +20,7 @@ BUILD_DIR = build
 CXXFLAGS = -w -o -c -Wall -g -Wextra -pedantic -std=c++11
 
 # Archivo ejecutable
-TARGET = $(BUILD_DIR)/MinimumSpanningTree
+TARGET = $(BUILD_DIR)/comparacionMultiplicacionMatrices
 
 # Recoge todos los archivos .cc de la carpeta src
 SRCS = $(wildcard $(SRC_DIR)/*.cc)
