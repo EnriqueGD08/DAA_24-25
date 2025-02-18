@@ -1,4 +1,4 @@
-# PR2: Simulador de la máquina RAM
+# P02: Simulador de la máquina RAM
 - Diseño y análisis de algoritmos
 - Enrique Gómez Díaz
 
