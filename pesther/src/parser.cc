@@ -30,7 +30,7 @@ Parser::Parser(std::ifstream& file_name) {
   std::string linea, auxiliar;
   std::pair<std::string, int> etiqueta;
   while (std::getline(file_name, linea)) {
-    if (linea[0] == '#' or linea == " ") { /// Si la línea es un comentario o está vacía, se ignora
+    if (linea[0] == '#' or linea == "") { /// Si la línea es un comentario o está vacía, se ignora
       continue;
     }
     /// Borramos tabulaciones
