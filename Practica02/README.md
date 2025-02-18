@@ -43,7 +43,7 @@ Maquina
 ├─ Instrucciones
 │   ├─ ADD
 │   ├─ SUB
-│   └─ MUL
+│   └─ ...
 │
 ├─ MemoriaDatos
 │
