@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include "unidad.h"
+#include "maquina.h"
 #include "parser.h"
 #include "utilities.h"
 
@@ -37,10 +37,10 @@ int main(int argc, char* argv[]) {
 
   std::string cinta_salida_str = std::string(argv[3]);
   Parser parser(programa_entrada);
-  Unidad unidad(parser.programa_parseado(), cinta_entrada, cinta_salida_str);
+  Maquina maquina(parser.programa_parseado(), cinta_entrada, cinta_salida_str);
 
-  while (!unidad.HALT) {
-    unidad.ejecutar_instruccion();
+  while (!maquina.HALT) {
+    maquina.ejecutar_instruccion();
   }
 
   return 0;

@@ -13,7 +13,6 @@
 
 
 #include "instruccion-read.h"
-#include "utilities.h"
 
 #include <iostream>
 #include <string>

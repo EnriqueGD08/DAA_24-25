@@ -13,7 +13,6 @@
 
 
 #include "instruccion-div.h"
-#include "utilities.h"
 
 #include <iostream>
 #include <string>
@@ -21,7 +20,7 @@
 
 /**
  * @brief Método que ejecuta la instrucción ADD
- * @param[in] contexto: contexto de la máquina RAM
+ * @param contexto: contexto de la máquina RAM
  */
 void InstruccionDIV::ejecutar(Contexto& contexto) {
   switch (direccionamiento_) {

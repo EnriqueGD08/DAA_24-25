@@ -8,19 +8,19 @@
  * @autor: Enrique Gómez Díaz
  * @mail: alu0101550329@ull.edu.es
  * @date: 18/02/2025
- * @brief: implementacion clase Unidad
+ * @brief: implementacion clase Maquina
 */
 
 #include <iostream>
-#include "unidad.h"
+#include "maquina.h"
 
 /**
- * @brief Constructor de la clase Unidad
+ * @brief Constructor de la clase Maquina
  * @param memoria_programa: memoria de programa
  * @param entrada: flujo de entrada
  * @param salida: flujo de salida
  */
-Unidad::Unidad(MemoriaPrograma memoria_programa, std::ifstream& entrada, std::string& salida) {
+Maquina::Maquina(MemoriaPrograma memoria_programa, std::ifstream& entrada, std::string& salida) {
   cinta_entrada_ = CintaEntrada(entrada);
   cinta_salida_ = CintaSalida();
   salida_ = salida;
@@ -36,7 +36,7 @@ Unidad::Unidad(MemoriaPrograma memoria_programa, std::ifstream& entrada, std::st
 /**
  * @brief Método que ejecuta la instrucción actual
  */
-void Unidad::ejecutar_instruccion() {
+void Maquina::ejecutar_instruccion() {
   try {
     memoria_programa_.get_instruccion(contador_programa_)->ejecutar(contexto_);
   } catch (char x) {

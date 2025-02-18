@@ -13,7 +13,6 @@
 
 
 #include "instruccion-jgtz.h"
-#include "utilities.h"
 
 #include <iostream>
 #include <string>
