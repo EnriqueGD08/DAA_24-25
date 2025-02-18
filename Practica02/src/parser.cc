@@ -78,6 +78,9 @@ Parser::Parser(std::ifstream& file_name) {
       case Opcodes::JZERO:
         programa_parseado_.push_back(new InstruccionJZERO(linea));
         break;
+      case Opcodes::MOD:
+        programa_parseado_.push_back(new InstruccionMOD(linea));
+        break;
       case Opcodes::HALT:
         programa_parseado_.push_back(new InstruccionHALT(linea));
         break;

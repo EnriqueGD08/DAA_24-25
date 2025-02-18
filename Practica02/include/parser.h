@@ -28,6 +28,7 @@
 #include "instruccion-jump.h"
 #include "instruccion-jgtz.h"
 #include "instruccion-jzero.h"
+#include "instruccion-mod.h"
 #include "instruccion-halt.h"
 
 #include "memoria-programa.h"
@@ -44,6 +45,7 @@ enum Opcodes {
   JUMP,
   JGTZ,
   JZERO,
+  MOD,
   HALT
 };
 
@@ -70,6 +72,7 @@ class Parser {
     {"JUMP", JUMP},
     {"JGTZ", JGTZ},
     {"JZERO", JZERO},
+    {"MOD", MOD},
     {"HALT", HALT}
   };
 };

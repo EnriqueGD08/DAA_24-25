@@ -21,7 +21,7 @@ BUILD_DIR = build
 CXXFLAGS = -w -o -c -Wall -g -Wextra -pedantic -std=c++11 -I$(HEADER_DIR)
 
 # Archivo ejecutable
-TARGET = programa
+TARGET = programa_mod
 
 # Recoge todos los archivos .cc de la carpeta src
 SRCS = $(wildcard $(SRC_DIR)/*.cc)
