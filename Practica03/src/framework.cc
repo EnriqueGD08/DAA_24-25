@@ -37,7 +37,7 @@ void Framework::DivideyVenceras(Algorithm* algoritmo, Solution* solucion, int pr
 		for (int i = 0; i < (int)subproblemaas.size(); i++) {
 			DivideyVenceras(subproblemaas[i], soluciones[i], profundidad);
 		}
-	
+
 		solucion->MergeSolutions(soluciones);
 	}
 }

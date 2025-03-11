@@ -106,7 +106,7 @@ void ejecutarAlgoritmo(std::string modo, std::vector<int>& secuencia, int tamani
   std::cout << "Número total de llamadas recursivas: " << framework->getContadorTotalRecursion() << "\n\n";
 }
 
-/*
+
 int main(int argc, char* argv[]) {
   Usage(argc, argv);
 
@@ -132,8 +132,8 @@ int main(int argc, char* argv[]) {
   }
   return 0;
 }
-*/
 
+/*
 int main(int argc, char* argv[]) {
 
   const std::string file_out_csv = "Tabla_resultados.csv";
@@ -180,3 +180,4 @@ int main(int argc, char* argv[]) {
   }
   return 0;
 }
+*/
