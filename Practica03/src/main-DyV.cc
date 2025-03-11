@@ -106,6 +106,7 @@ void ejecutarAlgoritmo(std::string modo, std::vector<int>& secuencia, int tamani
   std::cout << "Número total de llamadas recursivas: " << framework->getContadorTotalRecursion() << "\n\n";
 }
 
+/*
 int main(int argc, char* argv[]) {
   Usage(argc, argv);
 
@@ -131,54 +132,51 @@ int main(int argc, char* argv[]) {
   }
   return 0;
 }
+*/
 
-/*
 int main(int argc, char* argv[]) {
 
   const std::string file_out_csv = "Tabla_resultados.csv";
+  const std::string file_out_txt = "Tabla_resultados.txt";
+  if (argc > 1) {
+    std::freopen(file_out_txt.c_str(), "w", stdout);
+  }
   std::ofstream out_csv(file_out_csv);
 
-  out_csv << "Tamaño del vector, Tiempo del Merge, Tiempo del Quick, Tiempo del Binary\n";
+  out_csv << "Tamaño del vector, Profundidad del merge, Tiempo del Merge, Profundidad del Quick, Tiempo del Quick\n";
+  // std::cout << "| Tamaño del vector" << " | Profuncidad del merge" << " | Tiempo del Merge" << " | Profundidad del Quick" << " | Tiempo del Quick\n";
 
-  for (int size = 10; size < 10000; size += 10) {
+  for (int size = 10; size < 5000; size += 10) {
     std::vector<int> seuencia_aleatiora = secuenciaAleatoria(size);
 
     // Ordenación por Merge
+    int max_level_merge = 0;
     auto mergeSortTime = calcularTiempo([&]() {
       Algorithm* problemMerge = new AlgorithmMerge(seuencia_aleatiora);
       Solution* solutionMerge = new SolutionMerge();
       Framework* frameworkMerge = new Framework();
       frameworkMerge->DivideyVenceras(problemMerge, solutionMerge, 0);
+      max_level_merge = frameworkMerge->getNivelMaximoRecursion();
       delete problemMerge;
       delete solutionMerge;
       delete frameworkMerge;
     });
 
     // Ordenación por Quick
+    int max_level_quick = 0;
     auto quickSortTime = calcularTiempo([&]() {
       Algorithm* problemQuick = new AlgorithmQuick(seuencia_aleatiora);
       Solution* solutionQuick = new SolutionQuick();
       Framework* frameworkQuick = new Framework();
       frameworkQuick->DivideyVenceras(problemQuick, solutionQuick, 0);
+      max_level_quick = frameworkQuick->getNivelMaximoRecursion();
       delete problemQuick;
       delete solutionQuick;
       delete frameworkQuick;
     });
 
-    int X = seuencia_aleatiora[rand() % size];
-    std::sort(seuencia_aleatiora.begin(), seuencia_aleatiora.end());
-    auto binaryTime = calcularTiempo([&]() {
-      Algorithm* problemBinary = new AlgorithmBinary(seuencia_aleatiora, X, 0, seuencia_aleatiora.size() - 1);
-      Solution* solutionBinary = new SolutionBinary();
-      Framework* frameworkBinary = new Framework();
-      frameworkBinary->DivideyVenceras(problemBinary, solutionBinary, 0);
-      delete problemBinary;
-      delete solutionBinary;
-      delete frameworkBinary;
-    });
-
-    out_csv << size << "," << mergeSortTime << "," << quickSortTime << "," << binaryTime << "\n";
+    out_csv << size << ',' << max_level_merge << ',' << mergeSortTime << ',' << max_level_quick << ',' << quickSortTime << "\n";
+    // std::cout << "| " << size << " | " << max_level_merge << " | " << mergeSortTime << " | " << max_level_quick << " | " << quickSortTime << "\n";
   }
   return 0;
 }
-*/
