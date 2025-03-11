@@ -101,7 +101,7 @@ void ejecutarAlgoritmo(std::string modo, std::vector<int>& secuencia, int tamani
   framework->DivideyVenceras(Algorithm, solution, 0);
   solution->Print();
   framework->PrintRecurrencia(Algorithm);
-  std::cout << "\n Profundidad máxima: " << framework->getNivelMaximoRecursion() << std::endl;
+  std::cout << "\nProfundidad máxima: " << framework->getNivelMaximoRecursion() << std::endl;
   std::cout << "Número total de llamadas recursivas: " << framework->getContadorTotalRecursion() << "\n\n";
 }
 
@@ -113,11 +113,11 @@ int main(int argc, char* argv[]) {
   int DEBUG = atoi(argv[2]);
 
   if (DEBUG == 1) {
-    std::cout << "\n----- Modo debug -----\n" << std::endl;
+    std::cout << "\n========== Modo debug ==========\n" << std::endl;
     print(secuencia_aleatoria);
     ejecutarAlgoritmo(argv[1], secuencia_aleatoria, tamanio, DEBUG);
   } else {
-    std::cout << "\n----- Modo ejecución -----\n" << std::endl;
+    std::cout << "\n========== Modo ejecución ==========\n" << std::endl;
     for (int random = 3; random < 20; random++) {
       secuencia_aleatoria = secuenciaAleatoria(random);
       long long tiempo = calcularTiempo([&] {
