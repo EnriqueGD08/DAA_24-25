@@ -66,91 +66,64 @@ void print(std::vector<int> secuencia) {
   std::cout << "]\n";
 }
 
-int main(int argc, char* argv[]){
-  
+void ejecutarAlgoritmo(std::string modo, std::vector<int>& secuencia, int tamanio, int debug) {
+  Algorithm* Algorithm;
+  Solution* solution;
+
+  if (modo == "--quick" || modo == "-q") {
+    Algorithm = new AlgorithmQuick(secuencia);
+    solution = new SolutionQuick();
+  } else if (modo == "--merge" || modo == "-m") {
+    Algorithm = new AlgorithmMerge(secuencia);
+    solution = new SolutionMerge();
+  } else if (modo == "--binary" || modo == "-b") {
+    int X = debug ? 0 : secuencia[rand() % secuencia.size()];
+    std::sort(secuencia.begin(), secuencia.end());
+    if (debug) {
+      std::cout << "Introduzca el valor a buscar: ";
+      std::cin >> X;
+    }
+    Algorithm = new AlgorithmBinary(secuencia, X, 0, secuencia.size() - 1);
+    solution = new SolutionBinary();
+  } else if (modo == "--hanoi" || modo == "-h") {
+    std::string origin = "A";
+    std::string destination = "C";
+    std::string aux = "B";
+    Algorithm = new AlgorithmHanoi(tamanio, origin, destination, aux);
+    solution = new SolutionHanoi();
+  } else {
+    std::cout << "Opción no encontrada." << std::endl;
+    std::cout << "Pruebe --help para mas información." << std::endl;
+    exit(-1);
+  }
+
+  Framework* framework = new Framework();
+  framework->DivideyVenceras(Algorithm, solution, 0);
+  solution->Print();
+  framework->PrintRecurrencia(Algorithm);
+  std::cout << "\n Profundidad máxima: " << framework->getNivelMaximoRecursion() << std::endl;
+  std::cout << "Número total de llamadas recursivas: " << framework->getContadorTotalRecursion() << "\n\n";
+}
+
+int main(int argc, char* argv[]) {
   Usage(argc, argv);
 
   int tamanio = atoi(argv[3]);
   std::vector<int> secuencia_aleatoria = secuenciaAleatoria(tamanio);
-  Algorithm* Algorithm;
-  Solution* solution;
   int DEBUG = atoi(argv[2]);
 
   if (DEBUG == 1) {
     std::cout << "\n----- Modo debug -----\n" << std::endl;
-
-    if (std::string(argv[1]) == "--quick" || std::string(argv[1]) == "-q") {
-      print(secuencia_aleatoria);
-      Algorithm = new AlgorithmQuick(secuencia_aleatoria);
-      solution = new SolutionQuick();
-    } else if (std::string(argv[1]) == "--merge" || std::string(argv[1]) == "-m") {
-      print(secuencia_aleatoria);
-      Algorithm = new AlgorithmMerge(secuencia_aleatoria);
-      solution = new SolutionMerge();
-    } else if (std::string(argv[1]) == "--binary" || std::string(argv[1]) == "-b") {
-      int X;
-      std::sort(secuencia_aleatoria.begin(), secuencia_aleatoria.end());
-      print(secuencia_aleatoria);
-      std::cout << "Introduzca el valor a buscar: ";
-      std::cin >> X;
-      Algorithm = new AlgorithmBinary(secuencia_aleatoria, X, 0, secuencia_aleatoria.size() - 1);
-      solution = new SolutionBinary();
-    } else if (std::string(argv[1]) == "--hanoi" || std::string(argv[1]) == "-h") {
-      std::string origin = "A";
-      std::string destination = "C";
-      std::string aux = "B";
-      Algorithm = new AlgorithmHanoi(tamanio, origin, destination, aux);
-      solution = new SolutionHanoi();
-    } else { 
-      std::cout << "Opción no encontrada." << std::endl;
-      std::cout <<  "Pruebe " << argv[0] << " --help para mas información." << std::endl;
-      exit(-1);
-    }
-
-    Framework* framework = new Framework();
-    framework->DivideyVenceras(Algorithm, solution, 0);
-    solution->Print();
-    framework->PrintRecurrencia(Algorithm);
-    std::cout <<  "\n Profundidad máxima: " << 
-    framework->getNivelMaximoRecursion() << std::endl;
-    std::cout << "Número total de llamadas recursivas: " <<
-    framework->getContadorTotalRecursion() << "\n\n";
-
+    print(secuencia_aleatoria);
+    ejecutarAlgoritmo(argv[1], secuencia_aleatoria, tamanio, DEBUG);
   } else {
     std::cout << "\n----- Modo ejecución -----\n" << std::endl;
     for (int random = 3; random < 20; random++) {
       secuencia_aleatoria = secuenciaAleatoria(random);
-      if (std::string(argv[1]) == "--quick" || std::string(argv[1]) == "-q") {
-        Algorithm = new AlgorithmQuick(secuencia_aleatoria);
-        solution = new SolutionQuick();
-      } else if (std::string(argv[1]) == "--merge" || std::string(argv[1]) == "-m") {
-        Algorithm = new AlgorithmMerge(secuencia_aleatoria);
-        solution = new SolutionMerge();
-      } else if (std::string(argv[1]) == "--binary" || std::string(argv[1]) == "-b") {
-        // Buscamos un número al azar en el vector
-        int X = secuencia_aleatoria[rand() % secuencia_aleatoria.size()];
-        // Ordenamos el vector
-        std::sort(secuencia_aleatoria.begin(), secuencia_aleatoria.end());
-        Algorithm = new AlgorithmBinary(secuencia_aleatoria, X, 0, secuencia_aleatoria.size() - 1);
-        solution = new SolutionBinary();
-      } else if (std::string(argv[1]) == "--hanoi" || std::string(argv[1]) == "-h") {
-        std::string origin = "A";
-        std::string destination = "C";
-        std::string aux = "B";
-        Algorithm = new AlgorithmHanoi(random, origin, destination, aux);
-        solution = new SolutionHanoi();
-      } else { 
-        std::cout << "Opción no encontrada." << std::endl;
-        std::cout << "Pruebe " << argv[0] << " --help para mas información." << std::endl;
-        exit(-1);
-      }
-
-      Framework* framework = new Framework();
       long long tiempo = calcularTiempo([&] {
-        framework->DivideyVenceras(Algorithm, solution, 0);
+        ejecutarAlgoritmo(argv[1], secuencia_aleatoria, random, DEBUG);
       });
       std::cout << "Tiempo de ejecución(size = " << random << "): " << tiempo << " ms" << std::endl;
-      
     }
   }
 }
