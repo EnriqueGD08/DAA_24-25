@@ -111,9 +111,9 @@ int main(int argc, char* argv[]){
     framework->DivideyVenceras(Algorithm, solution, 0);
     solution->Print();
     framework->PrintRecurrencia(Algorithm);
-    std::cout <<  "\n--> Profundidad máxima: " << 
+    std::cout <<  "\n Profundidad máxima: " << 
     framework->getNivelMaximoRecursion() << std::endl;
-    std::cout << "--> Número total de llamadas recursivas: " <<
+    std::cout << "Número total de llamadas recursivas: " <<
     framework->getContadorTotalRecursion() << "\n\n";
 
   } else {
