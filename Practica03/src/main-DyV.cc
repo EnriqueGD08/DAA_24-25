@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <chrono>
 #include <algorithm>
+#include <fstream>
 
 #include "funciones.cc"
 #include "framework.h"
@@ -114,7 +115,9 @@ int main(int argc, char* argv[]) {
 
   if (DEBUG == 1) {
     std::cout << "\n========== Modo debug ==========\n" << std::endl;
+    std::cout << "Secuencia aleatoria: ";
     print(secuencia_aleatoria);
+    std::cout << std::endl << "Secuencia ordenada:  ";
     ejecutarAlgoritmo(argv[1], secuencia_aleatoria, tamanio, DEBUG);
   } else {
     std::cout << "\n========== Modo ejecución ==========\n" << std::endl;
@@ -126,4 +129,56 @@ int main(int argc, char* argv[]) {
       std::cout << "Tiempo de ejecución(size = " << random << "): " << tiempo << " ms" << std::endl;
     }
   }
+  return 0;
 }
+
+/*
+int main(int argc, char* argv[]) {
+
+  const std::string file_out_csv = "Tabla_resultados.csv";
+  std::ofstream out_csv(file_out_csv);
+
+  out_csv << "Tamaño del vector, Tiempo del Merge, Tiempo del Quick, Tiempo del Binary\n";
+
+  for (int size = 10; size < 10000; size += 10) {
+    std::vector<int> seuencia_aleatiora = secuenciaAleatoria(size);
+
+    // Ordenación por Merge
+    auto mergeSortTime = calcularTiempo([&]() {
+      Algorithm* problemMerge = new AlgorithmMerge(seuencia_aleatiora);
+      Solution* solutionMerge = new SolutionMerge();
+      Framework* frameworkMerge = new Framework();
+      frameworkMerge->DivideyVenceras(problemMerge, solutionMerge, 0);
+      delete problemMerge;
+      delete solutionMerge;
+      delete frameworkMerge;
+    });
+
+    // Ordenación por Quick
+    auto quickSortTime = calcularTiempo([&]() {
+      Algorithm* problemQuick = new AlgorithmQuick(seuencia_aleatiora);
+      Solution* solutionQuick = new SolutionQuick();
+      Framework* frameworkQuick = new Framework();
+      frameworkQuick->DivideyVenceras(problemQuick, solutionQuick, 0);
+      delete problemQuick;
+      delete solutionQuick;
+      delete frameworkQuick;
+    });
+
+    int X = seuencia_aleatiora[rand() % size];
+    std::sort(seuencia_aleatiora.begin(), seuencia_aleatiora.end());
+    auto binaryTime = calcularTiempo([&]() {
+      Algorithm* problemBinary = new AlgorithmBinary(seuencia_aleatiora, X, 0, seuencia_aleatiora.size() - 1);
+      Solution* solutionBinary = new SolutionBinary();
+      Framework* frameworkBinary = new Framework();
+      frameworkBinary->DivideyVenceras(problemBinary, solutionBinary, 0);
+      delete problemBinary;
+      delete solutionBinary;
+      delete frameworkBinary;
+    });
+
+    out_csv << size << "," << mergeSortTime << "," << quickSortTime << "," << binaryTime << "\n";
+  }
+  return 0;
+}
+*/
