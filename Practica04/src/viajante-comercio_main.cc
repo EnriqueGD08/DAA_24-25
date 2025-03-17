@@ -1,3 +1,4 @@
+
 /**
  * Universidad de La Laguna
  * Escuela Superior de Ingeniería y Tecnología
@@ -10,6 +11,7 @@
  * @date: 18/03/2025
  * @brief: programa principal
 */
+
 
 #include <iostream>
 #include <fstream>
@@ -37,6 +39,7 @@ std::map<int, std::vector<double>> Greedy_results;
  * @param mdFile Archivo de salida en formato Markdown
  * @param csvFile Archivo de salida en formato CSV
  */
+/*
 void solveInstance(const std::string& filepath, int timeLimit, std::ofstream& mdFile, std::ofstream& csvFile) {
   std::cout << "\n--> File: " << filepath << std::endl;
   Graph graph;
@@ -141,3 +144,4 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
+*/
