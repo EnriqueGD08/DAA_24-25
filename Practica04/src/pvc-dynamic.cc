@@ -20,8 +20,8 @@
 void PVCDynamic::execute(Graph& graph) {
   auto start = std::chrono::high_resolution_clock::now(); // Tiempo de inicio
 
-  auto cities = graph.getNodes();
-  int n = cities.size();
+  auto nodos = graph.getNodes();
+  int n = nodos.size();
   std::map<std::pair<int, int>, int> memo;
   std::map<std::pair<int, int>, int> parent;
 
@@ -30,11 +30,11 @@ void PVCDynamic::execute(Graph& graph) {
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start);
     if (elapsed.count() > TIME_LIMIT) {
       throw std::runtime_error("Tiempo límite excedido");
-      return -1; // Tiempo excedido, retorna un valor máximo
+      return -1; // Tiempo excedido
     }
 
     if (visited == (1 << n) - 1) {
-      return graph.getCost(cities[last], cities[0]); // Regreso al inicio
+      return graph.getCost(nodos[last], nodos[0]); // Regreso al inicio
     }
     if (memo.count({visited, last})) return memo[{visited, last}];
 
@@ -42,11 +42,11 @@ void PVCDynamic::execute(Graph& graph) {
     for (int next = 0; next < n; ++next) {
       if (visited & (1 << next)) continue; // Si next ya fue visitado
 
-      int currDist = graph.getCost(cities[last], cities[next]);
-      if (currDist == -1) continue; // Si no hay conexión
+      int coste_actual = graph.getCost(nodos[last], nodos[next]);
+      if (coste_actual == -1) continue; // Si no hay conexión
 
       int nextVisited = visited | (1 << next);
-      int temp = dp(nextVisited, next, dp) + currDist;
+      int temp = dp(nextVisited, next, dp) + coste_actual;
 
       if (temp < ans) {
         ans = temp;
@@ -57,7 +57,7 @@ void PVCDynamic::execute(Graph& graph) {
     return memo[{visited, last}] = ans;
   };
 
-  solution_cost_ = dp(1, 0, dp); // Comenzamos desde la ciudad 0 con ella ya visitada
+  solution_cost_ = dp(1, 0, dp); // Comenzamos desde el nodo 0 con el ya visitado
   if (solution_cost_ == -1) {
     throw std::runtime_error("Tiempo límite excedido");
   }
@@ -65,14 +65,14 @@ void PVCDynamic::execute(Graph& graph) {
   // Reconstruyendo el camino
   int visited = 1, last = 0;
   solution_.clear();
-  solution_.push_back(cities[0]);
+  solution_.push_back(nodos[0]);
   while (visited != (1 << n) - 1 && memo.find({visited, last}) != memo.end()) {
     last = parent[{visited, last}];
     visited |= (1 << last);
-    solution_.push_back(cities[last]);
+    solution_.push_back(nodos[last]);
   }
   if (visited == (1 << n) - 1) {
-    solution_.push_back(cities[0]); // Asegurar que solo añadimos el inicio si se completó el ciclo
+    solution_.push_back(nodos[0]); // Asegurar que solo añadimos el inicio si se completó el ciclo
   } else {
     throw std::runtime_error("Tiempo límite excedido");
   }

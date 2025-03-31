@@ -29,8 +29,6 @@ void PVCBruteForce::execute(Graph& graph) {
   do {
     auto now = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - start);
-    // std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
-    // std::cout << "Mejor distancia: " << TIME_LIMIT << std::endl;
     if (elapsed.count() > TIME_LIMIT) {
       throw std::runtime_error("Tiempo límite excedido");
       return;

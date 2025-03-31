@@ -8,16 +8,16 @@
  * @autor: Enrique Gómez Díaz
  * @mail: alu0101550329@ull.edu.es
  * @date: 18/03/2025
- * @brief: Implementacion de la clase PVCGreedy
+ * @brief: Implementacion de la clase PVCGreedyModi
 */
 
-#include "pvc-greedy.h"
+#include "pvc-greedy_modi.h"
 
 /**
  * @brief Método que ejecuta el algoritmo greedy
  * @param graph Grafo sobre el que se va a ejecutar el algoritmo
  */
-void PVCGreedy::execute(Graph& graph) {
+void PVCGreedyModi::execute(Graph& graph) {
   auto start = std::chrono::high_resolution_clock::now();
 
   auto nodes = graph.getNodes();
@@ -41,26 +41,26 @@ void PVCGreedy::execute(Graph& graph) {
       return; // Sale del método si se supera el tiempo límite.
     }
 
-    int costes_cercanos = std::numeric_limits<int>::max();
-    std::string nodos_cercanos;
+    std::vector<std::pair<int, std::string>> distancias;
 
-    for (int i = 0; i < nodes.size(); ++i) {
-      if (nodos_no_visitados.find(nodes[i]) != nodos_no_visitados.end()) {
-      int distance = graph.getCost(nodo_actual, nodes[i]);
-      if (distance < costes_cercanos) {
-        nodos_cercanos = nodes[i];
-        costes_cercanos = distance;
-      }
+    for (std::string nodo : nodos_no_visitados) {
+      int cost = graph.getCost(nodo_actual, nodo);
+      if (cost != -1) {
+        distancias.emplace_back(cost, nodo);
       }
     }
 
-    if (costes_cercanos < std::numeric_limits<int>::max()) {
-      nodo_actual = nodos_cercanos;
-      nodos_no_visitados.erase(nodos_cercanos);
-      solution_.push_back(nodos_cercanos);
-      solution_cost_ += costes_cercanos;
+    if (!distancias.empty()) {
+      std::sort(distancias.begin(), distancias.end());
+
+      size_t mitad = distancias.size() / 2;
+      auto [coste_mitad, nodo_mitad] = distancias[mitad];
+
+      nodo_actual = nodo_mitad;
+      nodos_no_visitados.erase(nodo_mitad);
+      solution_.push_back(nodo_mitad);
+      solution_cost_ += coste_mitad;
     } else {
-      // Si no se encuentra una ciudad más cercana, rompe el ciclo.
       break;
     }
   }
@@ -77,7 +77,7 @@ void PVCGreedy::execute(Graph& graph) {
  * @brief Método que devuelve la solución del algoritmo
  * @return std::vector<std::string> Vector con las ciudades de la solución
  */
-std::vector<std::string> PVCGreedy::getSolution() {
+std::vector<std::string> PVCGreedyModi::getSolution() {
   return solution_;
 }
 
@@ -85,6 +85,6 @@ std::vector<std::string> PVCGreedy::getSolution() {
  * @brief Método que devuelve el coste de la solución
  * @return int Coste de la solución
  */
-int PVCGreedy::getSolutionCost() {
+int PVCGreedyModi::getSolutionCost() {
   return solution_cost_;
 }

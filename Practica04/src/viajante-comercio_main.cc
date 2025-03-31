@@ -24,6 +24,7 @@
 #include "pvc-brute-force.h"
 #include "pvc-dynamic.h"
 #include "pvc-greedy.h"
+#include "pvc-greedy_modi.h"
 #include <numeric>
 
 namespace fs = std::filesystem;
@@ -39,7 +40,7 @@ std::map<int, std::vector<double>> Greedy_results;
  * @param mdFile Archivo de salida en formato Markdown
  * @param csvFile Archivo de salida en formato CSV
  */
-/*
+
 void solveInstance(const std::string& filepath, int timeLimit, std::ofstream& mdFile, std::ofstream& csvFile) {
   std::cout << "\n--> File: " << filepath << std::endl;
   Graph graph;
@@ -48,13 +49,14 @@ void solveInstance(const std::string& filepath, int timeLimit, std::ofstream& md
   std::vector<std::pair<std::string, PVCAlgorithm*>> solvers = {
     {"Fuerza Bruta", new PVCBruteForce()},
     {"Prog. Dinámica", new PVCDynamic()},
-    {"Voraz", new PVCGreedy()}
+    {"Voraz", new PVCGreedy()},
+    {"Voraz Modificado", new PVCGreedyModi()}
   };
 
   std::string filename = fs::path(filepath).filename();
   mdFile << "\n### " << filename << "\n";
-  mdFile << "| Algoritmo | Valor | Tiempo (ms) |\n";
-  mdFile << "|-----------|-------|-------------|\n";
+  mdFile << "| Algoritmo | Valor | Tiempo (ms) | Tamaño |\n";
+  mdFile << "|-----------|-------|-------------|--------|\n";
 
   csvFile << filename;
 
@@ -85,6 +87,9 @@ void solveInstance(const std::string& filepath, int timeLimit, std::ofstream& md
     } else if (solver.first == "Voraz") {
       int nodos = graph.getNumberNodes();
       Greedy_results[nodos].push_back(elapsed.count());
+    } else if (solver.first == "Voraz Modificado") {
+      int nodos = graph.getNumberNodes();
+      Greedy_results[nodos].push_back(elapsed.count());
     }
       
 
@@ -94,7 +99,7 @@ void solveInstance(const std::string& filepath, int timeLimit, std::ofstream& md
     }
     std::cout << "| " << result << std::endl;
 
-    mdFile << "| " << solver.first << " | " << solver.second->getSolutionCost() << " | " << elapsed.count() << "ms |\n";
+    mdFile << "| " << solver.first << " | " << solver.second->getSolutionCost() << " | " << elapsed.count() << "ms" << graph.getNumberNodes() << "|\n";
     csvFile << "," << solver.second->getSolutionCost() << "," << elapsed.count();
 
     delete solver.second;
@@ -144,4 +149,3 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
-*/

@@ -20,10 +20,12 @@
 #include <filesystem>
 #include "graph.h"
 #include "pvc-brute-force.h"
+#include "pvc-greedy_modi.h"
 #include "pvc-dynamic.h"
 #include "pvc-greedy.h"
 #include <numeric>
 
+/*
 template <typename PVC>
 std::pair<std::string, std::chrono::microseconds> runSolver(Graph& graph) {
   PVC solver;
@@ -43,11 +45,11 @@ std::pair<std::string, std::chrono::microseconds> runSolver(Graph& graph) {
 
 int main() {
   std::ofstream csvFile("tiempos.csv"), mdFile("tiempos.md");
-  csvFile << "Tamaño de la instancia, Tiempo de Brute Force, Tiempo de Greedy, Tiempo de Dynamic\n";
-  mdFile << "| Tamaño de la instancia | Tiempo de Brute Force | Tiempo de Greedy | Tiempo de Dynamic |\n";
-  mdFile << "|------------------------|-----------------------|------------------|-------------------|\n";
+  csvFile << "Tamaño de la instancia, Tiempo de Brute Force, Tiempo de Greedy, Tiempo de Dynamic, Tiempo Modi\n";
+  mdFile << "| Tamaño de la instancia | Tiempo de Brute Force | Tiempo de Greedy | Tiempo de Dynamic | Tiempo Modi\n";
+  mdFile << "|------------------------|-----------------------|------------------|-------------------|------------\n";
 
-  for (int n = 2; n <= 20; ++n) {
+  for (int n = 2; n <= 10; ++n) {
     std::cout << "Ejecutando para n = " << n << std::endl;
     Graph graph;
     graph.generateRandomGraph(n); // Usa esta función para generar el grafo en memoria
@@ -58,17 +60,22 @@ int main() {
     std::cout << "Greedy: " << greedyStatus << " en " << greedyTime.count() << " ms" << std::endl;
     auto [dynamicStatus, dynamicTime] = runSolver<PVCDynamic>(graph);
     std::cout << "Dynamic: " << dynamicStatus << " en " << dynamicTime.count() << " ms" << std::endl;
+    auto [greedyModiStatus, greedyModiTime] = runSolver<PVCGreedyModi>(graph);
+    std::cout << "GreedyModi: " << greedyModiStatus << " en " << greedyModiTime.count() << " ms" << std::endl;
 
     csvFile << n << ", " << (bfStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(bfTime.count())) << ", "
             << (greedyStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(greedyTime.count())) << ", "
-            << (dynamicStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(dynamicTime.count())) << "\n";
+            << (dynamicStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(dynamicTime.count())) << ", "
+            << (greedyModiStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(greedyModiTime.count())) << "\n";
 
     mdFile << "| " << n << " | " << (bfStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(bfTime.count())) << " ms | "
             << (greedyStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(greedyTime.count())) << " ms | "
-            << (dynamicStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(dynamicTime.count())) << " ms |\n";
+            << (dynamicStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(dynamicTime.count())) << " ms | "
+            << (greedyModiStatus == "EXCESIVO" ? "EXCESIVO" : std::to_string(greedyModiTime.count())) << " ms |\n";
   }
 
   csvFile.close();
   mdFile.close();
   return 0;
 }
+*/
