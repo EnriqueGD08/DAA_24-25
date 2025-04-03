@@ -25,7 +25,4 @@ class Voraz : public Algoritmo {
   Voraz(Problema problema) : Algoritmo(problema) {}
   ~Voraz() {}
   void resolver() override;
-
- private:
-  int puede_visitar(Nodo& nodo, float tiempo_actual, float carga_actual);
 };

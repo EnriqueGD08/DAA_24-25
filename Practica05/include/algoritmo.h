@@ -30,4 +30,5 @@ class Algoritmo {
  protected:
   Problema problema_;
   Solucion solucion_;
+  int puede_visitar(Nodo& nodo, float tiempo_actual, float carga_actual);
 };

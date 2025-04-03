@@ -17,8 +17,9 @@
 
 class Problema {
  public:
-  Problema(float tiempo_maximo, float peso_maximo, Grafo grafo, Nodo deposito):
-           tiempo_maximo_(tiempo_maximo), peso_maximo_(peso_maximo), grafo_(grafo), deposito_(deposito) {}
+  Problema(float tiempo_maximo, float peso_maximo, Grafo grafo, Nodo deposito, int velocidad):
+           tiempo_maximo_(tiempo_maximo), peso_maximo_(peso_maximo), grafo_(grafo),
+           deposito_(deposito), velocidad_(velocidad) {grafo_.set_velocidad(velocidad_);}
   ~Problema() {}
   float obtener_tiempo_maximo() const { return tiempo_maximo_; }
   float obtener_peso_maximo() const { return peso_maximo_; }
@@ -31,6 +32,7 @@ class Problema {
  private:
   float tiempo_maximo_;
   float peso_maximo_;
+  int velocidad_;
   Grafo grafo_;
   Nodo deposito_;
   std::vector<Nodo> nodos_;

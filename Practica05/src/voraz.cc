@@ -23,49 +23,44 @@ void Voraz::resolver() {
   int contador = 0;
   std::cout << "Nodos por visitar: " << nodos_por_visitar.size() << std::endl;
   while (!(nodos_por_visitar.size() == 0)) {
-    Nodo mejor_nodo;
     float mejor_coste = INFINITO;
-    for (auto& nodo : nodos_por_visitar) {
-      float coste = problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo.get_id());
-      if (puede_visitar(nodo, tiempo_actual, carga_actual) == 1) {
-        mejor_coste = coste;
-        mejor_nodo = nodo;
-      } else if (puede_visitar(nodo, tiempo_actual, carga_actual) == 2) {
-        std::cout << "No se puede visitar el nodo " << nodo.get_id() << " por sobrecarga." << std::endl;
-      } else if (puede_visitar(nodo, tiempo_actual, carga_actual) == 0) {
-        std::cout << "No se puede visitar el nodo " << nodo.get_id() << " por tiempo." << std::endl;
-      }
+    std::sort(nodos_por_visitar.begin(), nodos_por_visitar.end(), 
+          [&](const Nodo& a, const Nodo& b) {
+          return problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), a.get_id()) <
+                 problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), b.get_id());
+          });
+
+    Nodo nodo = nodos_por_visitar[0];
+    float coste = problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo.get_id());
+    switch (puede_visitar(nodo, tiempo_actual, carga_actual)) {
+    case 0:
+      carga_actual += nodo.get_peso();
+      tiempo_actual += coste;
+      nodos_visitados.push_back(nodo);
+      nodo_actual = nodo;
+      nodos_visitados.push_back(nodo);
+      nodos_por_visitar.erase(std::remove(nodos_por_visitar.begin(), nodos_por_visitar.end(), nodo), nodos_por_visitar.end());
+      break;
+    case 1:
+      // Primero se va a la zona de descarga y luego se va al nodo con carga 0
+      break;
+    case 2:
+      // Se aumenta el número de camiones y se resetea el tiempo y la carga
+      break;
+    default: // Error en la funcion puede_visitar al retornar un valor distinto a 0, 1 o 2
+      throw std::runtime_error("Error en la función puede_visitar");
     }
-    if (mejor_coste == INFINITO) {  // Si no se puede visitar ningún nodo, volvemos al depósito.
+     if (mejor_coste == INFINITO){
       tiempo_actual += problema_.obtener_grafo().calcular_coste_deposito(nodo_actual.get_id(), problema_.obtener_deposito().get_id());
       nodo_actual = problema_.obtener_deposito();
       nodos_visitados.push_back(nodo_actual);
       carga_actual = 0;
       tiempo_actual = 0;
+      solucion_.agregar_camion();
       subrutas++;
-    } else {
-      tiempo_actual += mejor_coste;
-      carga_actual += mejor_nodo.get_peso();
-      std::cout << std::endl;
-      std::cout << "Visitando nodo: " << mejor_nodo.get_id() << std::endl;
-      std::cout << "Carga actual: " << carga_actual << std::endl;
-      std::cout << std::endl;
-      nodos_visitados.push_back(mejor_nodo);
-      nodo_actual = mejor_nodo;
-      nodos_por_visitar.erase(std::remove(nodos_por_visitar.begin(), nodos_por_visitar.end(), mejor_nodo), nodos_por_visitar.end());
     }
   }
 
   solucion_.set_nodos(nodos_visitados);
   solucion_.set_subrutas(subrutas);
-}
-
-int Voraz::puede_visitar(Nodo& nodo, float tiempo_actual, float carga_actual) {
-  float coste_ida = problema_.obtener_grafo().calcular_coste(problema_.obtener_deposito().get_id(), nodo.get_id());
-  float coste_vuelta = problema_.obtener_grafo().calcular_coste_deposito(nodo.get_id(), problema_.obtener_deposito().get_id());
-  float tiempo_total = tiempo_actual + coste_ida + nodo.get_peso() + coste_vuelta;
-  if ((carga_actual + nodo.get_peso()) >= problema_.obtener_peso_maximo()) {
-    return 2;
-  }
-  return tiempo_total <= problema_.obtener_tiempo_maximo() && (carga_actual + nodo.get_peso()) <= problema_.obtener_peso_maximo();
 }

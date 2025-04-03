@@ -15,4 +15,9 @@
 
 #include "algoritmo.h"
 
-class GRASP : public Algoritmo {};
+class GRASP : public Algoritmo {
+ public:
+  GRASP(Problema problema) : Algoritmo(problema) {}
+  ~GRASP() {}
+  void resolver() override;
+};

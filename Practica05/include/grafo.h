@@ -20,9 +20,10 @@
 class Grafo {
  public:
   Grafo() {}
+  Grafo(int velocidad): velocidad_(velocidad) {}
   ~Grafo() {}
   float calcular_coste(int vertice1, int vertice2) {
-    return adyacencias_[vertice1].first.get_posicion().calcular_distancia(adyacencias_[vertice2].first.get_posicion());
+    return adyacencias_[vertice1].first.get_posicion().calcular_distancia(adyacencias_[vertice2].first.get_posicion()) * velocidad_;
   }
   float calcular_coste_basura(int vertice1, int vertice2) { return calcular_coste(vertice1, vertice2); }
   float calcular_coste_descarga(int vertice1, int vertice2) { return calcular_coste(vertice1, vertice2); }
@@ -42,7 +43,12 @@ class Grafo {
       std::cout << "Nodo: " << adyacencia.first.get_id() << ", Peso: " << adyacencia.first.get_peso() << std::endl;
     }
   }
+
+  void set_velocidad(int velocidad) {
+    velocidad_ = velocidad;
+  }
  
  private:
   std::vector<std::pair<Nodo, float>> adyacencias_;
+  int velocidad_;
  };

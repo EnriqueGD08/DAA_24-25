@@ -28,4 +28,4 @@ class Posicion {
  private:
   float x_;
   float y_;
- };
+};
