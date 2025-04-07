@@ -29,8 +29,8 @@ class GRASP : public Algoritmo {
   void resetear_solucion();
   void construccion();
   void busquedas_locales();
-  Solucion busqueda_local1(Solucion& solucion);
-  Solucion busqueda_local2(Solucion& solucion);
+  Solucion busqueda_local1(Solucion& solucion, int indice_subruta);
+  Solucion busqueda_local2(Solucion& solucion, int indice_subruta1, int indice_subruta2);
   Solucion busqueda_local3(Solucion& solucion);
   Solucion busqueda_local4(Solucion& solucion);
   // Solucion busqueda_local5(Solucion& solucion);

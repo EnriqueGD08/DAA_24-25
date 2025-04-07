@@ -22,16 +22,23 @@ class Solucion {
   ~Solucion() {}
 
   void agregar_camion() { camiones_++; }
+  void push_nodos(const std::vector<Nodo>& nodos) {
+    nodos_.push_back(nodos);
+  }
+  void cambiar_subruta(int subruta, const std::vector<Nodo>& nodos) {
+    nodos_[subruta] = nodos;
+  }
+  bool es_factible(float tiempo, float peso) const;
 
-  void set_nodos(const std::vector<Nodo>& nodos) { nodos_ = nodos; }
+  void set_nodos(const std::vector<std::vector<Nodo>>& nodos) { nodos_ = {}; nodos_ = nodos; }
   void set_subrutas(int subrutas) { subrutas_ = subrutas; }
   void set_camiones(int camiones) { camiones_ = camiones; }
-  const std::vector<Nodo>& get_nodos() const { return nodos_; }
+  const std::vector<std::vector<Nodo>>& get_nodos() const { return nodos_; }
   int get_subrutas() const { return subrutas_; }
   int get_camiones() const { return camiones_; }
  
  private:
-  std::vector<Nodo> nodos_;
+  std::vector<std::vector<Nodo>> nodos_;
   int subrutas_;
   int camiones_ = 0;
  };

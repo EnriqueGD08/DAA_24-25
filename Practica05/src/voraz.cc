@@ -44,6 +44,7 @@ void Voraz::resolver() {
       nodos_visitados.push_back(nodo_actual);
       nodos_por_visitar.erase(nodos_por_visitar.begin());
       break;
+    
     case 1: // Primero se va a la zona de descarga y luego se va al nodo_actual con carga 0
         nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
         tiempo_actual += problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_descarga.get_id()) +
@@ -56,6 +57,7 @@ void Voraz::resolver() {
         nodos_visitados.push_back(nodo_actual);
         subrutas++;
       break;
+
     case 2: // Se aumenta el número de camiones y se resetea el tiempo y la carga
       nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
       carga_actual = 0;
@@ -64,14 +66,17 @@ void Voraz::resolver() {
       nodos_visitados.push_back(nodo_actual);
       tiempo_actual = 0;
       solucion_.agregar_camion();
+      solucion_.push_nodos(nodos_visitados);
+      nodos_visitados = {};
       subrutas++;
       nodos_visitados.push_back(nodo_actual);
       break;
+
     default: // Error en la funcion puede_visitar al retornar un valor distinto a 0, 1 o 2
       throw std::runtime_error("Error en la función puede_visitar");
     }
   }
 
-  solucion_.set_nodos(nodos_visitados);
+  solucion_.push_nodos(nodos_visitados);
   solucion_.set_subrutas(subrutas);
 }

@@ -85,36 +85,3 @@ Problema leer_archivo(const std::string& nombre_archivo) {
 
   return problema;
 }
-
-/**
- * @brief Muestra la solución encontrada en la consola.
- * @param solucion Objeto Solucion que contiene la solución a mostrar.
- * @return void
- */
-void mostrar_solucion(const Solucion& solucion) {
-  std::cout << "Solución encontrada:" << std::endl;
-  std::cout << "Número de camiones: " << solucion.get_camiones() << std::endl;
-  std::cout << "Número de subrutas: " << solucion.get_subrutas() << std::endl << std::endl;
-  std::cout << "Nodos visitados en orden:" << std::endl;
-  bool salida = false;
-  for (const auto& nodo : solucion.get_nodos()) {
-    if (nodo.get_id() == -1) {
-      std::cout << " -> IF ";
-    } else if (nodo.get_id() == -2) {
-      std::cout << " -> IF1 ";
-    } else if (nodo.get_id() == 0 && salida == false) {
-      std::cout << std::endl << "Depósito";
-      salida = true;
-    } else if (nodo.get_id() == 0 && salida == true) {
-      std::cout << " -> Depósito ";
-      salida = false;
-    } else {
-      std::cout << " -> Nodo " << nodo.get_id();
-    }
-  }
-  std::cout << " -> No quedan zonas por visitar." << std::endl;
-  std::cout << "--------------------------------------------------------" << std::endl;
-  std::cout << "                 FIN DE LA SOLUCIÓN                    " << std::endl;
-  std::cout << "--------------------------------------------------------" << std::endl;
-  std::cout << std::endl;
-}

@@ -18,7 +18,7 @@ HEADER_DIR = include
 BUILD_DIR = build
 
 # Bandera del compilador
-CXXFLAGS = -w -o -c -Wall -g -Wextra -pedantic -std=c++17 -I$(HEADER_DIR)
+CXXFLAGS = -w -o -c -Wall -g -O3 -Wextra -pedantic -std=c++17 -I$(HEADER_DIR)
 
 # Archivo ejecutable
 TARGET = recogida-basura

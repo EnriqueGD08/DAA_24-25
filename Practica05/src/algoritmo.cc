@@ -46,22 +46,31 @@ void Algoritmo::mostrar_solucion() const {
   std::cout << "Número de subrutas: " << solucion_.get_subrutas() << std::endl << std::endl;
   std::cout << "Nodos visitados en orden:" << std::endl;
   bool salida = false;
-  for (const auto& nodo : solucion_.get_nodos()) {
-    if (nodo.get_id() == -1) {
-      std::cout << " -> IF ";
-    } else if (nodo.get_id() == -2) {
-      std::cout << " -> IF1 ";
-    } else if (nodo.get_id() == 0 && salida == false) {
-      std::cout << std::endl << "Depósito";
-      salida = true;
-    } else if (nodo.get_id() == 0 && salida == true) {
-      std::cout << " -> Depósito ";
-      salida = false;
-    } else {
-      std::cout << " -> Nodo " << nodo.get_id();
+  for (const auto& nodos : solucion_.get_nodos()) {
+    bool inicio_ruta = false;
+    for (const Nodo nodo : nodos) {
+      switch (static_cast<int>(nodo.get_id())) {
+      case 0:
+        if (inicio_ruta == false) { std::cout << "Depósito -> "; inicio_ruta = true; }
+        else { std::cout << "Depósito"; inicio_ruta = false; }
+        break;
+
+      case -1:
+        std::cout << "IF -> ";
+        break;
+
+      case -2:
+        std::cout << "IF1 -> ";
+        break;
+      
+      default:
+        std::cout << nodo.get_id() << " -> ";
+        break;
+      }
     }
+    std::cout << std::endl;
   }
-  std::cout << " -> No quedan zonas por visitar." << std::endl;
+  std::cout << "No quedan zonas por visitar." << std::endl;
   std::cout << "--------------------------------------------------------" << std::endl;
   std::cout << "                 FIN DE LA SOLUCIÓN                    " << std::endl;
   std::cout << "--------------------------------------------------------" << std::endl;
