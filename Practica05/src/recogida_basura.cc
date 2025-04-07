@@ -25,6 +25,10 @@
 #include "utils.h"
 
 int main(int argc, char* argv[]) {
+  system("clear");
+  std::cout << "--------------------------------------------------------" << std::endl;
+  std::cout << "                 RECOGIDA DE BASURA                    " << std::endl;
+  std::cout << "--------------------------------------------------------" << std::endl;
   if (argc < 2) {
     std::cerr << "Uso: " << argv[0] << " <archivo_entrada>" << std::endl;
     return 1;
@@ -32,6 +36,7 @@ int main(int argc, char* argv[]) {
 
   try {
     Problema problema = leer_archivo(argv[1]);
+    std::cout << "                 ALGORITMO VORAZ                       " << std::endl << std::endl;  
     Voraz algoritmo(problema);
     algoritmo.resolver();
     mostrar_solucion(algoritmo.obtener_solucion());

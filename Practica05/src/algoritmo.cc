@@ -20,16 +20,17 @@
  * @param carga_actual carga actual
  * @return 0 si se puede visitar, 1 si no se puede visitar por carga, 2 si no se puede visitar por tiempo
  */
-int Algoritmo::puede_visitar(Nodo& nodo, float tiempo_actual, float carga_actual) {
-  float coste_ida = problema_.obtener_grafo().calcular_coste(problema_.obtener_deposito().get_id(), nodo.get_id());
-  float coste_vuelta = problema_.obtener_grafo().calcular_coste_deposito(nodo.get_id(), problema_.obtener_deposito().get_id());
-  float tiempo_total = tiempo_actual + coste_ida + nodo.get_peso() + coste_vuelta;
-
-  if ((carga_actual + nodo.get_peso()) > problema_.obtener_peso_maximo()) {
-    return 1; // No se puede visitar por la carga
-  }
+int Algoritmo::puede_visitar(Nodo& nodo_actual, Nodo& nodo_destino, float tiempo_actual, float carga_actual) {
+  float tiempo_total = tiempo_actual + problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_destino.get_id()) +
+                       problema_.obtener_grafo().calcular_coste(nodo_destino.get_id(), problema_.obtener_IF().get_id()) +
+                       problema_.obtener_grafo().calcular_coste(problema_.obtener_IF().get_id(), problema_.obtener_deposito().get_id()) +
+                       nodo_destino.get_tiempo();
+                      
   if (tiempo_total > problema_.obtener_tiempo_maximo()) {
     return 2; // No se puede visitar por el tiempo
+  }
+  if ((carga_actual + nodo_destino.get_peso()) > problema_.obtener_peso_maximo()) {
+    return 1; // No se puede visitar por la carga
   }
   return 0; // Se puede visitar
 }

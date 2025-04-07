@@ -22,7 +22,7 @@ Problema leer_archivo(const std::string& nombre_archivo) {
   int Lx, Ly;
   int Q1; // capacidad máxima de los camiones de recolección
   int Q2; // capacidad máxima de los camiones de transporte
-  int V; // velocidad de los camiones
+  float V; // velocidad de los camiones
   int depot_x, depot_y; // coordenadas del depósito
   int IF_x, IF_y; // coordenadas de la primera instalación de transferencia
   int IF1_x, IF1_y; // coordenadas de la segunda instalación de transferencia
@@ -59,7 +59,7 @@ Problema leer_archivo(const std::string& nombre_archivo) {
       double x, y;
       float tiempo, demanda;
       if (std::istringstream(linea) >> id >> x >> y >> tiempo >> demanda) {
-        nodos.emplace_back(id, Posicion(x, y), demanda);
+        nodos.emplace_back(id, Posicion(x, y), demanda, tiempo);
       }
     } else {
       continue; // Ignorar líneas no relevantes
@@ -73,7 +73,12 @@ Problema leer_archivo(const std::string& nombre_archivo) {
   // y construir el objeto Problema
   Grafo grafo;
   Nodo deposito(0, Posicion(depot_x, depot_y), 0);
-  Problema problema(L1, Q1, grafo, deposito, V);
+  Nodo IF(-1, Posicion(IF_x, IF_y), 0);
+  Nodo IF1(-2, Posicion(IF1_x, IF1_y), 0);
+  Problema problema(L1, Q1, grafo, deposito, V, IF, IF1);
+  problema.agregar_nodo(IF1);
+  problema.agregar_nodo(IF);
+  problema.agregar_nodo(deposito);
   for (const auto& nodo : nodos) {
       problema.agregar_nodo(nodo);
   }
@@ -89,10 +94,27 @@ Problema leer_archivo(const std::string& nombre_archivo) {
 void mostrar_solucion(const Solucion& solucion) {
   std::cout << "Solución encontrada:" << std::endl;
   std::cout << "Número de camiones: " << solucion.get_camiones() << std::endl;
-  std::cout << "Número de subrutas: " << solucion.get_subrutas() << std::endl;
+  std::cout << "Número de subrutas: " << solucion.get_subrutas() << std::endl << std::endl;
   std::cout << "Nodos visitados en orden:" << std::endl;
+  bool salida = false;
   for (const auto& nodo : solucion.get_nodos()) {
-      std::cout << "Nodo " << nodo.get_id() << " en (" << nodo.get_posicion().get_x()
-                << ", " << nodo.get_posicion().get_y() << ")" << std::endl;
+    if (nodo.get_id() == -1) {
+      std::cout << " -> IF ";
+    } else if (nodo.get_id() == -2) {
+      std::cout << " -> IF1 ";
+    } else if (nodo.get_id() == 0 && salida == false) {
+      std::cout << std::endl << "Depósito";
+      salida = true;
+    } else if (nodo.get_id() == 0 && salida == true) {
+      std::cout << " -> Depósito ";
+      salida = false;
+    } else {
+      std::cout << " -> Nodo " << nodo.get_id();
+    }
   }
+  std::cout << " -> No quedan zonas por visitar." << std::endl;
+  std::cout << "--------------------------------------------------------" << std::endl;
+  std::cout << "                 FIN DE LA SOLUCIÓN                    " << std::endl;
+  std::cout << "--------------------------------------------------------" << std::endl;
+  std::cout << std::endl;
 }

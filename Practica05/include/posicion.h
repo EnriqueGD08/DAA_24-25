@@ -20,7 +20,7 @@ class Posicion {
   Posicion(float x = 0, float y = 0) : x_(x), y_(y) {}
   ~Posicion() {}
   float calcular_distancia(const Posicion& posicion) {
-    return abs(static_cast<int>(x_) - static_cast<int>(posicion.x_)) + abs(static_cast<int>(y_) - static_cast<int>(posicion.y_));
+    return abs(x_ - posicion.x_) + abs(y_ - posicion.y_);
   }
   float get_x() const { return x_; }
   float get_y() const { return y_; }
