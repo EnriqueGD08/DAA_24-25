@@ -36,10 +36,17 @@ int main(int argc, char* argv[]) {
 
   try {
     Problema problema = leer_archivo(argv[1]);
+    Algoritmo* algoritmo;
     std::cout << "                 ALGORITMO VORAZ                       " << std::endl << std::endl;  
-    Voraz algoritmo(problema);
-    algoritmo.resolver();
-    mostrar_solucion(algoritmo.obtener_solucion());
+    algoritmo = new Voraz(problema);
+    algoritmo->resolver();
+    algoritmo->mostrar_solucion();
+
+    std::cout << "                 ALGORITMO GRASP                       " << std::endl << std::endl;
+    algoritmo = new GRASP(problema);
+    algoritmo->resolver();
+    algoritmo->mostrar_solucion();
+    delete algoritmo;
       
   } catch (const std::exception& e) {
     std::cerr << "Error: " << e.what() << std::endl;

@@ -25,6 +25,7 @@ class Solucion {
 
   void set_nodos(const std::vector<Nodo>& nodos) { nodos_ = nodos; }
   void set_subrutas(int subrutas) { subrutas_ = subrutas; }
+  void set_camiones(int camiones) { camiones_ = camiones; }
   const std::vector<Nodo>& get_nodos() const { return nodos_; }
   int get_subrutas() const { return subrutas_; }
   int get_camiones() const { return camiones_; }

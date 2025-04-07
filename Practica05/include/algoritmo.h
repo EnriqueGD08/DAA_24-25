@@ -26,6 +26,7 @@ class Algoritmo {
   Solucion obtener_solucion() const {
     return solucion_;
   }
+  void mostrar_solucion() const;
  
  protected:
   Problema problema_;

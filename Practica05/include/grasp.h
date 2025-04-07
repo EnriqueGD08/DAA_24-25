@@ -15,9 +15,23 @@
 
 #include "algoritmo.h"
 
+const int LRC = 3; // Longitud de la lista restringida de candidatos
+
 class GRASP : public Algoritmo {
  public:
   GRASP(Problema problema) : Algoritmo(problema) {}
   ~GRASP() {}
   void resolver() override;
+
+ private:
+  std::vector<Solucion> soluciones_;
+
+  void resetear_solucion();
+  void construccion();
+  void busquedas_locales();
+  Solucion busqueda_local1(Solucion& solucion);
+  Solucion busqueda_local2(Solucion& solucion);
+  Solucion busqueda_local3(Solucion& solucion);
+  Solucion busqueda_local4(Solucion& solucion);
+  // Solucion busqueda_local5(Solucion& solucion);
 };
