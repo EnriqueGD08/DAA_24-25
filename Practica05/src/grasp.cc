@@ -16,7 +16,7 @@
 #include <random>
 
 void GRASP::resolver() {
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 10000; i++) {
     resetear_solucion();
     construccion();
     soluciones_.push_back(solucion_);
@@ -56,43 +56,49 @@ void GRASP::construccion() {
     Nodo nodo_descarga;
 
     switch (puede_visitar(nodo_actual, nodo_destino, tiempo_actual, carga_actual)) {
-    case 0: // Se puede visitar el nodo_actual
-      nodo_actual = nodo_destino;
-      carga_actual += nodo_actual.get_peso();
-      tiempo_actual += problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_destino.get_id()) + nodo_destino.get_tiempo();;
-      nodos_visitados.push_back(nodo_actual);
-      nodos_por_visitar.erase(nodos_por_visitar.begin());
-      break;
+      case 0: // Se puede visitar el nodo_actual
+        nodo_actual = nodo_destino;
+        carga_actual += nodo_actual.get_peso();
+        tiempo_actual += problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_destino.get_id()) + nodo_destino.get_tiempo();
+        nodos_visitados.push_back(nodo_actual);
+        nodos_por_visitar.erase(
+            std::remove(nodos_por_visitar.begin(), nodos_por_visitar.end(), nodo_destino),
+            nodos_por_visitar.end()
+        );
+        break;
       
-    case 1: // Primero se va a la zona de descarga y luego se va al nodo_actual con carga 0
+      case 1: // Primero se va a la zona de descarga y luego se va al nodo_actual con carga 0
         nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
         tiempo_actual += problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_descarga.get_id()) +
-                        problema_.obtener_grafo().calcular_coste(nodo_descarga.get_id(), nodo_destino.get_id()) +
-                        nodo_destino.get_tiempo();
+                          problema_.obtener_grafo().calcular_coste(nodo_descarga.get_id(), nodo_destino.get_id()) +
+                          nodo_destino.get_tiempo();
         carga_actual = nodo_destino.get_peso();
-        nodos_por_visitar.erase(nodos_por_visitar.begin());
+        nodos_por_visitar.erase(
+            std::remove(nodos_por_visitar.begin(), nodos_por_visitar.end(), nodo_destino),
+            nodos_por_visitar.end()
+        );
         nodos_visitados.push_back(nodo_descarga);
         nodo_actual = nodo_destino;
         nodos_visitados.push_back(nodo_actual);
         subrutas++;
-      break;
-
-    case 2: // Se aumenta el número de camiones y se resetea el tiempo y la carga
-      nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
-      carga_actual = 0;
-      nodo_actual = problema_.obtener_deposito();
-      nodos_visitados.push_back(nodo_descarga);
-      nodos_visitados.push_back(nodo_actual);
-      tiempo_actual = 0;
-      solucion_.agregar_camion();
-      solucion_.push_nodos(nodos_visitados);
-      nodos_visitados = {};
-      subrutas++;
-      nodos_visitados.push_back(nodo_actual);
-      break;
-
-    default: // Error en la funcion puede_visitar al retornar un valor distinto a 0, 1 o 2
-      throw std::runtime_error("Error en la función puede_visitar");
+        break;
+      
+      case 2: // Se aumenta el número de camiones y se resetea el tiempo y la carga
+        nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
+        carga_actual = 0;
+        nodo_actual = problema_.obtener_deposito();
+        nodos_visitados.push_back(nodo_descarga);
+        nodos_visitados.push_back(nodo_actual);
+        tiempo_actual = 0;
+        solucion_.agregar_camion();
+        solucion_.push_nodos(nodos_visitados);
+        nodos_visitados = {};
+        subrutas++;
+        nodos_visitados.push_back(nodo_actual);
+        break;
+      
+      default: // Error en la funcion puede_visitar al retornar un valor distinto a 0, 1 o 2
+        throw std::runtime_error("Error en la función puede_visitar");
     }
   }
 
@@ -104,21 +110,26 @@ void GRASP::busquedas_locales() {
   Solucion mejor_solucion;
   mejor_solucion.set_subrutas(std::numeric_limits<int>::max());
   for (Solucion& solucion : soluciones_) {
-    std::cout << solucion.get_subrutas() << std::endl;
-    for (int indice_subruta = 0; indice_subruta < solucion.get_subrutas(); indice_subruta++) {
-      std::cout << "indide subruta: " << indice_subruta << std::endl;
+    int cantidad_subrutas = solucion.get_nodos().size();
+    for (int indice_subruta = 0; indice_subruta < cantidad_subrutas; indice_subruta++) {
       solucion = busqueda_local1(solucion, indice_subruta);
-      // solucion = busqueda_local2(soluciones_[indice], indice_subruta, indice_subruta + 1);
-      // busqueda_local3(soluciones_[indice]);
-      // busqueda_local4(soluciones_[indice]);
+      if (indice_subruta + 1 < cantidad_subrutas) {
+        solucion = busqueda_local2(solucion, indice_subruta, indice_subruta + 1);
+      }
     }
-    if (solucion.get_subrutas() < mejor_solucion.get_subrutas())
-    mejor_solucion = solucion;
+    /*
+    for () {
+
+    }
+    */
+    if (solucion.get_subrutas() < mejor_solucion.get_subrutas()) {
+      mejor_solucion = solucion;
+    }
   }
   solucion_ = mejor_solucion;
 }
 
-Solucion GRASP::busqueda_local1(Solucion& solucion, int indice_subruta) { // Intercambio de orden entre dos nodos de la misma ruta
+Solucion& GRASP::busqueda_local1(Solucion& solucion, int indice_subruta) { // Intercambio de orden entre dos nodos de la misma ruta
   std::vector<Nodo> subruta = solucion.get_nodos()[indice_subruta];
   int tamanio_subruta = subruta.size(); // Para evitar llamar constantemente a la función size()
   for (int nodo1 = 1; nodo1 < tamanio_subruta; nodo1++) {
@@ -139,17 +150,34 @@ Solucion GRASP::busqueda_local1(Solucion& solucion, int indice_subruta) { // Int
   return solucion;
 }
 
-Solucion GRASP::busqueda_local2(Solucion& solucion, int indice_subruta1, int indice_subruta2) { // Intercambio de entre dos nodos de diferentes rutas
+
+Solucion& GRASP::busqueda_local2(Solucion& solucion, int indice_subruta1, int indice_subruta2) { // Intercambio de entre dos nodos de diferentes rutas
   std::vector<Nodo> subruta1 = solucion.get_nodos()[indice_subruta1];
   std::vector<Nodo> subruta2 = solucion.get_nodos()[indice_subruta2];
+  
+  for (int nodo1 = 0; nodo1 < subruta1.size(); nodo1++) {
+    for (int nodo2 = 0; nodo2 < subruta2.size(); nodo2++) {
+      Nodo auxiliar = subruta1[nodo1];
+      subruta1[nodo1] = subruta2[nodo2];
+      subruta2[nodo2] = auxiliar;
+      Solucion nueva_solucion = solucion;
+      nueva_solucion.cambiar_subruta(indice_subruta1, subruta1);
+      nueva_solucion.cambiar_subruta(indice_subruta2, subruta2);
+
+      if (nueva_solucion.es_factible(problema_.obtener_tiempo_maximo(), problema_.obtener_peso_maximo()) 
+                                  && nueva_solucion.get_subrutas() < solucion.get_subrutas()) {
+        solucion = nueva_solucion;
+      }
+    }
+  }
+  return solucion;
+}
+
+Solucion& GRASP::busqueda_local3(Solucion& solucion) { //
 
 }
 
-Solucion GRASP::busqueda_local3(Solucion& solucion) { //
-
-}
-
-Solucion GRASP::busqueda_local4(Solucion& solucion) { //
+Solucion& GRASP::busqueda_local4(Solucion& solucion) { //
 
 }
 
