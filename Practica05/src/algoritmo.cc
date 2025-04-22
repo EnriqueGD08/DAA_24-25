@@ -76,3 +76,124 @@ void Algoritmo::mostrar_solucion() const {
   std::cout << "--------------------------------------------------------" << std::endl;
   std::cout << std::endl;
 }
+
+/**
+ * @brief Obtiene las subrutas de la solución.
+ * @param nodos_visitados Vector de nodos visitados.
+ * @return std::vector<std::vector<Nodo>> Vector de subrutas.
+ */
+std::vector<std::vector<Nodo>> Algoritmo::obtener_subrutas(std::vector<Nodo>& nodos_visitados) {
+  std::vector<std::vector<Nodo>> subrutas;
+  std::vector<Nodo> subruta;
+  for (const Nodo& nodo : nodos_visitados) {
+    if (nodo.get_id() == 0) {
+      if (!subruta.empty()) {
+        subrutas.push_back(subruta);
+        subruta.clear();
+      }
+    }
+    subruta.push_back(nodo);
+  }
+  if (!subruta.empty()) {
+    subrutas.push_back(subruta);
+  }
+  return subrutas;
+}
+
+/**
+ * @brief crea las tareas a partir de la solución.
+ * @return void
+ */
+void Algoritmo::set_tareas() {
+  std::vector<std::vector<Nodo>> nodos = solucion_.get_nodos();
+
+  for (int i = 0; i < nodos.size(); ++i) {
+    std::vector<Nodo> subruta = nodos[i];
+    float tiempo = 0;
+    float peso = 0;
+    for (int j = 1; j < subruta.size() - 1; ++j) {
+      if (subruta[j].get_id() != 0 && subruta[j].get_id() != -1 && subruta[j].get_id() != -2) {
+        tiempo += problema_.obtener_grafo().calcular_coste(subruta[j - 1].get_id(), subruta[j].get_id()) +
+                  subruta[j].get_tiempo();
+        peso += subruta[j].get_peso();
+      } else if (subruta[j].get_id() == -1 || subruta[j].get_id() == -2) {
+        tiempo += problema_.obtener_grafo().calcular_coste(subruta[j - 1].get_id(), subruta[j].get_id());
+        peso = 0;
+        problema_.agregar_tarea(subruta[j], tiempo, peso);
+      }
+    }
+  }
+}
+
+/**
+ * @brief Calcula las rutas de transporte.
+ * @return void
+ */
+int Algoritmo::ChooseVehicle(const Tareas& tarea) {
+  int vehiculo = -1;
+  float mejor_tiempo = INFINITO;
+  for (int camion = 0; camion < solucion_.get_camiones_transporte().size(); ++camion) {
+    float tiempo;
+    if (solucion_.get_camiones_transporte()[camion].second + tarea.peso < problema_.obtener_peso_maximo_transporte()) {
+      tiempo = problema_.obtener_grafo().calcular_coste(solucion_.get_nodos_transporte()[camion].back().get_id(), tarea.Zona_descarga.get_id());
+    }
+    else {
+      Nodo nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(solucion_.get_nodos_transporte()[camion].back());
+      tiempo = solucion_.get_camiones_transporte()[camion].first + 
+      problema_.obtener_grafo().calcular_coste(solucion_.get_nodos_transporte()[camion].back().get_id(), nodo_descarga.get_id()) +
+      problema_.obtener_grafo().calcular_coste(nodo_descarga.get_id(), tarea.Zona_descarga.get_id());
+    }
+    if (tiempo < mejor_tiempo && solucion_.get_camiones_transporte()[camion].first + tiempo + 
+        problema_.obtener_grafo().calcular_coste(tarea.Zona_descarga.get_id(), problema_.obtener_vertedero().get_id()) < problema_.obtener_tiempo_maximo()) {
+      mejor_tiempo = tiempo;
+      vehiculo = camion;
+    }
+
+  }
+
+  return vehiculo;
+}
+
+/**
+ * @brief Calcula las rutas de transporte.
+ * @return void
+ */
+void Algoritmo::calcular_rutas_transporte() {
+  std::vector<Tareas> tareas = problema_.obtener_tareas();
+  
+  // Ordenar las tareas por el orden de llegada
+  std::sort(tareas.begin(), tareas.end(), [](const Tareas& a, const Tareas& b) {
+    return a.tiempo < b.tiempo;
+  });
+  std::vector<Tareas> tareas_ordenadas = tareas;
+
+  // Asignar uno por uno las rutas para cada camión
+  for (Tareas& tarea : tareas_ordenadas) {
+    int camion = ChooseVehicle(tarea);
+    if (camion != -1) {
+      // Asignar la tarea al camión
+      if (solucion_.get_camiones_transporte()[camion].second + tarea.peso < problema_.obtener_peso_maximo_transporte()) {
+        solucion_.set_peso_transporte(camion, solucion_.get_camiones_transporte()[camion].second + tarea.peso);
+        solucion_.set_tiempo_transporte(camion, solucion_.get_camiones_transporte()[camion].first +
+                                                problema_.obtener_grafo().calcular_coste(solucion_.get_nodos_transporte()[camion].back().get_id(), tarea.Zona_descarga.get_id()));
+        solucion_.push_nodos_transporte(camion, tarea.Zona_descarga);
+      }
+      else {
+        Nodo nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(solucion_.get_nodos_transporte()[camion].back());
+        solucion_.set_tiempo_transporte(camion, solucion_.get_camiones_transporte()[camion].first +
+                                                problema_.obtener_grafo().calcular_coste(solucion_.get_nodos_transporte()[camion].back().get_id(), problema_.obtener_vertedero().get_id()) +
+                                                problema_.obtener_grafo().calcular_coste(problema_.obtener_vertedero().get_id(), tarea.Zona_descarga.get_id()));
+        solucion_.set_peso_transporte(camion, tarea.peso);
+        solucion_.push_nodos_transporte(camion, nodo_descarga);
+        solucion_.push_nodos_transporte(camion, tarea.Zona_descarga);
+      }
+    } else {
+      // Si no hay camiones disponibles, se crea uno nuevo
+      float tiempo = problema_.obtener_grafo().calcular_coste(problema_.obtener_vertedero().get_id(), tarea.Zona_descarga.get_id());
+      solucion_.push_camiones_transporte({ tiempo, tarea.peso });
+      
+      solucion_.push_nodos_transporte(solucion_.get_nodos_transporte().size() - 1, problema_.obtener_vertedero());
+      solucion_.push_nodos_transporte(solucion_.get_nodos_transporte().size() - 1, tarea.Zona_descarga);
+    }
+  }
+}

@@ -23,14 +23,14 @@ class Grafo {
   Grafo(int velocidad): velocidad_(velocidad) {}
   ~Grafo() {}
   float calcular_coste(int vertice1, int vertice2) {
-    return (adyacencias_[vertice1 + 2].first.get_posicion().calcular_distancia(adyacencias_[vertice2 + 2].first.get_posicion()) / velocidad_ * 60);
+    return (adyacencias_[vertice1 + 3].first.get_posicion().calcular_distancia(adyacencias_[vertice2 + 3].first.get_posicion()) / velocidad_ * 60);
   }
   float calcular_coste_basura(int vertice1, int vertice2) { return calcular_coste(vertice1, vertice2); }
   float calcular_coste_descarga(int vertice1, int vertice2) { return calcular_coste(vertice1, vertice2); }
   float calcular_coste_deposito(int vertice1, int vertice2) { return calcular_coste(vertice1, vertice2); }
 
   Nodo obtener_descarga_carcana(Nodo& nodo) { 
-    if (calcular_coste(nodo.get_id(), 0) < calcular_coste(nodo.get_id(), 1)) {
+    if (calcular_coste(nodo.get_id(), -3) < calcular_coste(nodo.get_id(), -2)) {
       return adyacencias_[0].first;
     } else {
       return adyacencias_[1].first;

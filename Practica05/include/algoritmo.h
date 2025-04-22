@@ -23,13 +23,17 @@ class Algoritmo {
   Algoritmo(Problema problema) : problema_(problema) {}
   virtual ~Algoritmo() {}
   virtual void resolver() = 0;
-  Solucion obtener_solucion() const {
-    return solucion_;
-  }
+  Solucion obtener_solucion() const { return solucion_; }
+  Problema obtener_problema() const { return problema_; }
   void mostrar_solucion() const;
  
  protected:
   Problema problema_;
   Solucion solucion_;
+
   int puede_visitar(Nodo& nodo_actual, Nodo& nodo_destino, float tiempo_actual, float carga_actual);
+  std::vector<std::vector<Nodo>> obtener_subrutas(std::vector<Nodo>& nodos_visitados);
+  void set_tareas();
+  void calcular_rutas_transporte();
+  int ChooseVehicle(const Tareas& tarea);
 };

@@ -10,3 +10,5 @@
  * @date: 25/03/2025
  * @brief: implementación de la clase Problema
 */
+
+#include "problema.h"

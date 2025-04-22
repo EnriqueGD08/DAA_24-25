@@ -45,6 +45,7 @@ Problema leer_archivo(const std::string& nombre_archivo) {
     else if (clave == "num_vehicles") iss >> num_vehicles;
     else if (clave == "num_zones") iss >> num_zones;
     else if (clave == "epsilon") iss >> epsilon;
+    else if (clave == "offset") iss >> offset;
     else if (clave == "Lx") iss >> Lx;
     else if (clave == "Ly") iss >> Ly;
     else if (clave == "Q1") iss >> Q1;
@@ -75,10 +76,12 @@ Problema leer_archivo(const std::string& nombre_archivo) {
   Nodo deposito(0, Posicion(depot_x, depot_y), 0);
   Nodo IF(-1, Posicion(IF_x, IF_y), 0);
   Nodo IF1(-2, Posicion(IF1_x, IF1_y), 0);
-  Problema problema(L1, Q1, grafo, deposito, V, IF, IF1);
+  Nodo vertedero(-3, Posicion(dumpsite_x, dumpsite_y), 0);
+  Problema problema(L1, Q1, grafo, deposito, V, IF, IF1, Q2, vertedero, offset);
   problema.agregar_nodo(IF1);
   problema.agregar_nodo(IF);
   problema.agregar_nodo(deposito);
+  problema.agregar_nodo(vertedero);
   for (const auto& nodo : nodos) {
       problema.agregar_nodo(nodo);
   }

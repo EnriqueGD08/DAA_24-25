@@ -19,6 +19,7 @@ void Voraz::resolver() {
   nodos_por_visitar.erase(nodos_por_visitar.begin());
   nodos_por_visitar.erase(nodos_por_visitar.begin());
   nodos_por_visitar.erase(nodos_por_visitar.begin());
+  nodos_por_visitar.erase(nodos_por_visitar.begin());
 
   solucion_.agregar_camion();
   float tiempo_actual = 0;
@@ -47,6 +48,11 @@ void Voraz::resolver() {
     
     case 1: // Primero se va a la zona de descarga y luego se va al nodo_actual con carga 0
         nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
+        std::cout << "Descarga: " << nodo_descarga.get_id() << std::endl;
+        problema_.agregar_tarea(nodo_descarga.get_id(), tiempo_actual + 
+                                                        problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), 
+                                                                                                 nodo_descarga.get_id()),
+                                                        carga_actual);
         tiempo_actual += problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), nodo_descarga.get_id()) +
                         problema_.obtener_grafo().calcular_coste(nodo_descarga.get_id(), nodo_destino.get_id()) +
                         nodo_destino.get_tiempo();
@@ -60,6 +66,11 @@ void Voraz::resolver() {
 
     case 2: // Se aumenta el número de camiones y se resetea el tiempo y la carga
       nodo_descarga = problema_.obtener_grafo().obtener_descarga_carcana(nodo_actual);
+      std::cout << "Descarga: " << nodo_descarga.get_id() << std::endl;
+      problema_.agregar_tarea(nodo_descarga.get_id(), tiempo_actual + 
+                                                      problema_.obtener_grafo().calcular_coste(nodo_actual.get_id(), 
+                                                                                               nodo_descarga.get_id()),
+                                                      carga_actual);
       carga_actual = 0;
       nodo_actual = problema_.obtener_deposito();
       nodos_visitados.push_back(nodo_descarga);
@@ -79,4 +90,7 @@ void Voraz::resolver() {
 
   solucion_.push_nodos(nodos_visitados);
   solucion_.set_subrutas(subrutas);
+
+  // Calcular las rutas de transporte
+  calcular_rutas_transporte();
 }
