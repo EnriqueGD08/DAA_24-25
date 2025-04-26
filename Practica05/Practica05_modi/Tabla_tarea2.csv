@@ -1,0 +1,3 @@
+Instancia,Nodos,CamionesR,CamionesT,Tiempo recolección,Tiempo transporte,Tiempo Total
+Instancia1,40,13,3,7.6041e-05 segundos,4.736e-06 segundos,0.000148271 segundos
+Instancia2,40,13,3,7.7251e-05 segundos,5.308e-06 segundos,0.000211803 segundos

@@ -1,0 +1,122 @@
+Procesando archivo: "instance2.txt"
+                 ALGORITMO GVNS                        
+
+Max_k: 3
+Iteracion: 1
+Tiempo de ejecución fase recolección: 2.16591 segundos
+Tiempo de ejecución fase transporte: 9.33e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.16598 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 2.0577 segundos
+Tiempo de ejecución fase transporte: 8.953e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.05776 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 2.16108 segundos
+Tiempo de ejecución fase transporte: 1.0648e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.16113 segundos
+Max_k: 4
+Iteracion: 1
+Tiempo de ejecución fase recolección: 2.76186 segundos
+Tiempo de ejecución fase transporte: 8.243e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.76193 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 2.76054 segundos
+Tiempo de ejecución fase transporte: 1.1912e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.76061 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 2.66112 segundos
+Tiempo de ejecución fase transporte: 9.008e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.66118 segundos
+Max_k: 5
+Iteracion: 1
+Tiempo de ejecución fase recolección: 3.47267 segundos
+Tiempo de ejecución fase transporte: 1.177e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.47273 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 3.46722 segundos
+Tiempo de ejecución fase transporte: 1.1078e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.46729 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 3.46371 segundos
+Tiempo de ejecución fase transporte: 9.511e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.46377 segundos
+--------------------------------------------------------
+Procesando archivo: "instance1.txt"
+                 ALGORITMO GVNS                        
+
+Max_k: 3
+Iteracion: 1
+Tiempo de ejecución fase recolección: 2.0734 segundos
+Tiempo de ejecución fase transporte: 1.077e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.07346 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 1.99366 segundos
+Tiempo de ejecución fase transporte: 8.207e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 1.99371 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 2.06331 segundos
+Tiempo de ejecución fase transporte: 1.1137e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.06337 segundos
+Max_k: 4
+Iteracion: 1
+Tiempo de ejecución fase recolección: 2.74023 segundos
+Tiempo de ejecución fase transporte: 1.0624e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.74029 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 2.50721 segundos
+Tiempo de ejecución fase transporte: 1.04e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.50726 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 2.88142 segundos
+Tiempo de ejecución fase transporte: 1.1155e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 2.88148 segundos
+Max_k: 5
+Iteracion: 1
+Tiempo de ejecución fase recolección: 3.29647 segundos
+Tiempo de ejecución fase transporte: 1.1259e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.29653 segundos
+Iteracion: 2
+Tiempo de ejecución fase recolección: 3.29136 segundos
+Tiempo de ejecución fase transporte: 8.553e-06 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.29142 segundos
+Iteracion: 3
+Tiempo de ejecución fase recolección: 3.36803 segundos
+Tiempo de ejecución fase transporte: 1.1774e-05 segundos
+Nodos: 40
+Camiones: 13
+Tiempo de ejecución: 3.36815 segundos
+--------------------------------------------------------
