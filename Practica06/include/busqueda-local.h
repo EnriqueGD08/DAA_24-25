@@ -17,6 +17,8 @@
 
 class BusquedaLocal : public Algoritmo {
  public:
+  BusquedaLocal(Problema& problema) : Algoritmo(problema) {}
+  ~BusquedaLocal() override = default;
 
- private:
+  void resolver() override;
 };

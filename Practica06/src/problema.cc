@@ -41,7 +41,7 @@ Problema::Problema(std::ifstream& archivo) {
   }
 
   while(std::getline(archivo, linea)) {
-    std::replace(linea.begin(), linea.end(), ',', ' ');
+    std::replace(linea.begin(), linea.end(), ',', '.');
 
     std::istringstream iss(linea);
     Punto punto;

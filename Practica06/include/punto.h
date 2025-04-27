@@ -32,11 +32,11 @@ class Punto {
   void setDimensiones(int dimensiones);
 
   double distancia(const Punto& otro) const;
+  double distancia(const std::vector<Punto>& puntos) const;
   void pushCoordenada(double coordenada);
 
   friend std::ostream& operator<<(std::ostream& os, const Punto& punto);
  
  private:
   std::vector<double> coordenadas_ = {};
-  int dimensiones_ = 0;
 };

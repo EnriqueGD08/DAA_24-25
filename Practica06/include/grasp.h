@@ -17,6 +17,10 @@
 
 class GRASP : public Algoritmo {
  public:
+  GRASP(Problema& problema) : Algoritmo(problema) {}
+  ~GRASP() override = default;
+
+  void resolver() override;
 
  private:
 };

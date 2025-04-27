@@ -53,8 +53,12 @@ void ejecutarProgramaArchivo (char* argv[]) {
 
     Problema problema(archivo);
     archivo.close();
+
+    Algoritmo* algoritmo;
     
-    std::cout << problema << std::endl;
+    algoritmo = new Voraz(problema);
+    algoritmo->resolver();
+    std::cout << "Solución Voraz: " << algoritmo->getSolucion() << std::endl;
 }
 
 /**

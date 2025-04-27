@@ -12,3 +12,17 @@
 */
 
 #include "busqueda-local.h"
+
+/**
+ * @brief Resuelve el problema utilizando el algoritmo de búsqueda local.
+ * @return void
+ */
+void BusquedaLocal::resolver() {
+  auto start = std::chrono::high_resolution_clock::now();
+
+  // Implementación del algoritmo de búsqueda local
+
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = end - start;
+  tiempo_ejecucion_ = elapsed.count();
+}

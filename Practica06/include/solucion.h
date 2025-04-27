@@ -17,9 +17,31 @@
 #include <vector>
 
 #include "error.h"
+#include "punto.h"
 
 class Solucion {
  public:
+  Solucion() = default;
+  Solucion(const std::vector<Punto>& puntos) : puntos_(puntos) { 
+    valor_objetivo_ = calcularValorObjetivo(); 
+  }
+  ~Solucion() = default;
+  
+  const std::vector<Punto>& getPuntos() const { return puntos_; }
+  int getTamanio() const { return puntos_.size(); }
+  double getValorObjetivo() const { return valor_objetivo_; }
+
+  void setPuntos(const std::vector<Punto>& puntos) { puntos_ = puntos;
+                                                     valor_objetivo_ = calcularValorObjetivo(); }
+  
+  void pushPunto(const Punto& punto) { puntos_.push_back(punto); 
+                                       valor_objetivo_ = calcularValorObjetivo(); }
+  double calcularValorObjetivo();
+  void clear() { puntos_.clear(); }
+
+  friend std::ostream& operator<<(std::ostream& os, const Solucion& solucion);
 
  private:
+  std::vector<Punto> puntos_ = {};
+  double valor_objetivo_ = 0.0;
 };

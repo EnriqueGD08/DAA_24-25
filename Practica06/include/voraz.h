@@ -17,6 +17,11 @@
 
 class Voraz : public Algoritmo {
  public:
+  Voraz(Problema& problema) : Algoritmo(problema) {}
+  ~Voraz() override = default;
+
+  void resolver() override;
 
  private:
+  void construccion();
 };

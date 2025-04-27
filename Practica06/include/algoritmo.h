@@ -14,11 +14,31 @@
 #pragma once
 
 #include <iostream>
+#include <chrono>
 
 #include "error.h"
+#include "solucion.h"
+#include "problema.h"
 
 class Algoritmo {
  public:
+  Algoritmo(Problema& problema) : problema_(problema) {}
+  virtual ~Algoritmo() = default;
 
- private:
+  Problema getProblema() const { return problema_; }
+  Solucion getSolucion() const { return solucion_; }
+  double getTiempoEjecucion() const { return tiempo_ejecucion_; }
+
+  void setProblema(const Problema& problema) { problema_ = problema; }
+  void setSolucion(const Solucion& solucion) { solucion_ = solucion; }
+  void setTamanioSolucion(int tamanio) { tamanio_solucion_ = tamanio; }
+
+  virtual void resolver() = 0;
+  Punto centroGravedad(const std::vector<Punto>& puntos);
+
+ protected:
+  Problema problema_;
+  Solucion solucion_;
+  int tamanio_solucion_ = 2;
+  double tiempo_ejecucion_ = 0;
 };

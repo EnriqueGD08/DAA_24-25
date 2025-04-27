@@ -12,3 +12,17 @@
 */
 
 #include "grasp.h"
+
+/**
+ * @brief Resuelve el problema utilizando el algoritmo GRASP.
+ * @return void
+ */
+void GRASP::resolver() {
+  auto start = std::chrono::high_resolution_clock::now();
+
+  // Implementación del algoritmo GRASP
+
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = end - start;
+  tiempo_ejecucion_ = elapsed.count();
+}
