@@ -8,17 +8,5 @@
  * @autor: Enrique Gómez Díaz
  * @mail: alu0101550329@ull.edu.es
  * @date: 06/05/2025
- * @brief: cabecera de funciones de utilidad
+ * @brief: implementación de la clase Error
 */
-
-#pragma once
-
-#include <iostream>
-
-#include "busqueda-local.h"
-#include "grasp.h"
-#include "voraz.h"
-
-void ussage(int argc, char* argv[]);
-void ejecutarProgramaArchivo (char* argv[]);
-void ejecutarProgramaCarpeta (char* argv[]);

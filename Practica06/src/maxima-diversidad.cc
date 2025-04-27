@@ -11,14 +11,27 @@
  * @brief: archivo principal del programa
 */
 
-#include <iostream>
-
-#include "busqueda-local.h"
-#include "grasp.h"
-#include "voraz.h"
 #include "utilidades.h"
 
+/**
+ * @brief Función principal del programa.
+ * @param argc Número de argumentos de la línea de comandos.
+ * @param argv Arreglo de argumentos de la línea de comandos.
+ * @return 0 si el programa se ejecuta correctamente, otro si hay un error.
+ */
 int main (int argc, char* argv[]) {
+  ussage(argc, argv);
+
+  try {
+    if (std::string(argv[1]) == "-a") {
+      ejecutarProgramaArchivo(argv);
+    } else{
+      ejecutarProgramaCarpeta(argv);
+    }
+  } catch (const std::exception& e) {
+    
+    return EXIT_FAILURE;
+  }
 
   return 0;
 }
