@@ -13,8 +13,29 @@
 
 #pragma once
 
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+
+#include "error.h"
+#include "punto.h"
+
 class Problema {
  public:
+  Problema();
+  Problema(std::ifstream& archivo);
+  ~Problema();
+
+  int getNumeroPuntos() const { return numero_puntos_; }
+  int getDimensiones() const { return dimensiones_; }
+  const std::vector<Punto>& getPuntos() const { return puntos_; }
+
+  friend std::ostream& operator<<(std::ostream& os, const Problema& problema);
 
  private:
+  std::vector<Punto> puntos_ = {};
+  int numero_puntos_ = 0;
+  int dimensiones_ = 0;
 };

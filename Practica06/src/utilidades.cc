@@ -13,6 +13,12 @@
 
 #include "utilidades.h"
 
+/**
+ * @brief Función que muestra el uso del programa.
+ * @param argc Número de argumentos de la línea de comandos.
+ * @param argv Arreglo de argumentos de la línea de comandos.
+ * @return void
+ */
 void ussage(int argc, char* argv[]) {
   if (argc == 2 && std::string(argv[1]) == "-h") {
     std::cout << "Uso: " << argv[0] << " -a|-c" << " <archivo/carpeta>" << std::endl;
@@ -34,10 +40,28 @@ void ussage(int argc, char* argv[]) {
   }
 }
 
+/**
+ * @brief Función que ejecuta el programa con un archivo como parámetro.
+ * @param argv Arreglo de argumentos de la línea de comandos.
+ * @return void
+ */
 void ejecutarProgramaArchivo (char* argv[]) {
+    std::ifstream archivo(argv[2]);
+    if (!archivo.is_open()) {
+      LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[2]));
+    }
 
+    Problema problema(archivo);
+    archivo.close();
+    
+    std::cout << problema << std::endl;
 }
 
+/**
+ * @brief Función que ejecuta el programa con una carpeta como parámetro.
+ * @param argv Arreglo de argumentos de la línea de comandos.
+ * @return void
+ */
 void ejecutarProgramaCarpeta (char* argv[]) {
 
 }

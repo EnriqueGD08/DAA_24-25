@@ -15,6 +15,9 @@
 #include <string>
 #include <iostream>
 
+#define LANZAR_ERROR(mensaje, detalles) \
+  throw Error(mensaje, detalles, std::string(__FILE__) + ":" + std::to_string(__LINE__) + " (" + __FUNCTION__ + ")")
+
 class Error : public std::exception {
  public:
   Error(const std::string& mensaje,

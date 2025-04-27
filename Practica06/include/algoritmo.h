@@ -13,6 +13,10 @@
 
 #pragma once
 
+#include <iostream>
+
+#include "error.h"
+
 class Algoritmo {
  public:
 

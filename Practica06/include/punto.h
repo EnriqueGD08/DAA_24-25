@@ -13,8 +13,30 @@
 
 #pragma once
 
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+#include "error.h"
+
 class Punto {
  public:
+  Punto();
+  Punto(std::vector<double> coordenadas);
+  ~Punto();
+
+  double getCoordenada(int i) const;
+  void setCoordenada(int i, double valor);
+
+  int getDimensiones() const;
+  void setDimensiones(int dimensiones);
+
+  double distancia(const Punto& otro) const;
+  void pushCoordenada(double coordenada);
+
+  friend std::ostream& operator<<(std::ostream& os, const Punto& punto);
  
  private:
+  std::vector<double> coordenadas_ = {};
+  int dimensiones_ = 0;
 };

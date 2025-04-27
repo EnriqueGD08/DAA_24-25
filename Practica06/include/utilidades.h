@@ -14,9 +14,12 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 
 #include "busqueda-local.h"
+#include "error.h"
 #include "grasp.h"
+#include "problema.h"
 #include "voraz.h"
 
 void ussage(int argc, char* argv[]);

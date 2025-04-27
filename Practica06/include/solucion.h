@@ -13,6 +13,11 @@
 
 #pragma once
 
+#include <iostream>
+#include <vector>
+
+#include "error.h"
+
 class Solucion {
  public:
 
