@@ -21,4 +21,8 @@ class BusquedaLocal : public Algoritmo {
   ~BusquedaLocal() override = default;
 
   void resolver() override;
+
+ private:
+  void construccion(std::vector<Punto>& puntos_restantes);
+  void busquedaLocal(std::vector<Punto>& puntos_restantes);
 };

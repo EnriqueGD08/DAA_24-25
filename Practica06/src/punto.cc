@@ -108,6 +108,22 @@ void Punto::pushCoordenada(double coordenada) {
 }
 
 /**
+ * @brief Devuelve una representación en cadena del punto.
+ * @return Representación en cadena del punto.
+ */
+std::string Punto::toString() const {
+  std::string resultado = "(";
+  for (size_t i = 0; i < coordenadas_.size(); ++i) {
+    resultado += std::to_string(coordenadas_[i]);
+    if (i < coordenadas_.size() - 1) {
+      resultado += ", ";
+    }
+  }
+  resultado += ")";
+  return resultado;
+}
+
+/**
  * @brief Sobrecarga del operador de salida para imprimir el punto.
  * @param os Flujo de salida.
  * @param punto Punto a imprimir.

@@ -18,25 +18,25 @@
  * @return valor objetivo de la solución.
  */
 double Solucion::calcularValorObjetivo() {
-  double valor_objetivo = 0.0;
+  valor_objetivo_ = 0.0;
   for (size_t i = 0; i < puntos_.size(); ++i) {
     for (size_t j = i + 1; j < puntos_.size(); ++j) {
-      valor_objetivo += puntos_[i].distancia(puntos_[j]);
+      valor_objetivo_ += puntos_[i].distancia(puntos_[j]);
     }
   }
-  return valor_objetivo;
+
+  return valor_objetivo_;
 }
 
 /**
- * @brief Sobrecarga del operador de salida para imprimir la solución.
- * @param os Flujo de salida.
- * @param solucion Objeto Solucion a imprimir.
- * @return Flujo de salida.
+ * @brief devuelve una representación en cadena de la solución.
+ * @return representación en cadena de la solución.
  */
-std::ostream& operator<<(std::ostream& os, const Solucion& solucion) {
-  for (const auto& punto : solucion.puntos_) {
-    os << punto << " ";
+std::string Solucion::toString() const {
+  std::string resultado = "Solución: \n";
+  for (const auto& punto : puntos_) {
+    resultado += punto.toString() + "\n";
   }
-  os << "\nValor objetivo: " << solucion.getValorObjetivo() << std::endl;
-  return os;
+  resultado += "Valor objetivo: " + std::to_string(valor_objetivo_) + "\n";
+  return resultado;
 }

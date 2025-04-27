@@ -41,11 +41,15 @@ Problema::Problema(std::ifstream& archivo) {
   }
 
   while(std::getline(archivo, linea)) {
+    if (linea.empty() || std::all_of(linea.begin(), linea.end(), isspace)) {
+      continue; // Ignorar líneas vacías o que solo tengan blancos
+    }
     std::replace(linea.begin(), linea.end(), ',', '.');
 
     std::istringstream iss(linea);
     Punto punto;
-    for (int i = 0; i < dimensiones_; ++i) {
+    
+    for (int i = 0; i < dimensiones_; i++) {
       double coordenada;
       if (!(iss >> coordenada)) {
         LANZAR_ERROR("Error en el formato del archivo", "Hay menos coordenadas de las esperadas");

@@ -58,7 +58,18 @@ void ejecutarProgramaArchivo (char* argv[]) {
     
     algoritmo = new Voraz(problema);
     algoritmo->resolver();
-    std::cout << "Solución Voraz: " << algoritmo->getSolucion() << std::endl;
+    std::cout << "Solución Voraz: " << algoritmo->getSolucion().toString() << std::endl;
+
+    algoritmo = new GRASP(problema);
+    dynamic_cast<GRASP*>(algoritmo)->setLRC(3);
+    algoritmo->resolver();
+    std::cout << "Solución GRASP: " << algoritmo->getSolucion().toString() << std::endl;
+
+    algoritmo = new BusquedaLocal(problema);
+    algoritmo->resolver();
+    std::cout << "Solución Búsqueda Local: " << algoritmo->getSolucion().toString() << std::endl;
+
+    delete algoritmo;
 }
 
 /**
@@ -67,5 +78,44 @@ void ejecutarProgramaArchivo (char* argv[]) {
  * @return void
  */
 void ejecutarProgramaCarpeta (char* argv[]) {
+  std::filesystem::path carpeta(argv[2]);
+  if (!std::filesystem::is_directory(carpeta)) {
+    LANZAR_ERROR("No se pudo abrir la carpeta", "La carpeta que se intenta abrir es: " + std::string(argv[2]));
+  }
+
+  for (const auto& archivo : std::filesystem::directory_iterator(carpeta)) {
+    if (archivo.is_regular_file()) {
+      std::cout << "Procesando archivo: " << archivo.path().filename() << std::endl;
+
+      try {
+        std::ifstream archivo_entrada(archivo.path());
+        if (!archivo_entrada.is_open()) {
+          LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + archivo.path().string());
+        }
+
+        Problema problema(archivo_entrada);
+        archivo_entrada.close();
+
+        Algoritmo* algoritmo;
+        
+        algoritmo = new Voraz(problema);
+        algoritmo->resolver();
+        std::cout << "Solución Voraz: " << algoritmo->getSolucion().toString() << std::endl;
+
+        algoritmo = new GRASP(problema);
+        dynamic_cast<GRASP*>(algoritmo)->setLRC(3);
+        algoritmo->resolver();
+        std::cout << "Solución GRASP: " << algoritmo->getSolucion().toString() << std::endl;
+
+        algoritmo = new BusquedaLocal(problema);
+        algoritmo->resolver();
+        std::cout << "Solución Búsqueda Local: " << algoritmo->getSolucion().toString() << std::endl;
+
+        delete algoritmo;
+      } catch (const std::exception& e) {
+          std::cerr << e.what() << std::endl;
+      }
+    }
+  }
 
 }

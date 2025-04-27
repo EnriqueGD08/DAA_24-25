@@ -36,7 +36,7 @@ void Voraz::construccion() {
   std::vector<Punto> puntos_restantes = problema_.getPuntos();
 
   Punto centro_gravedad = centroGravedad(puntos_restantes);
-  double distancia_maxima = std::numeric_limits<double>::max();
+  double distancia_maxima = 0;
   int indice_punto_mas_alejado = 0;
   while (puntos_solucion.size() < tamanio_solucion_) {
     indice_punto_mas_alejado = 0;
@@ -54,4 +54,5 @@ void Voraz::construccion() {
   }
 
   solucion_.setPuntos(puntos_solucion);
+  solucion_.calcularValorObjetivo();
 }

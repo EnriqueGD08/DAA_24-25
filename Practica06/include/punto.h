@@ -34,6 +34,7 @@ class Punto {
   double distancia(const Punto& otro) const;
   double distancia(const std::vector<Punto>& puntos) const;
   void pushCoordenada(double coordenada);
+  std::string toString() const;
 
   friend std::ostream& operator<<(std::ostream& os, const Punto& punto);
  

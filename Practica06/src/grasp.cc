@@ -20,9 +20,43 @@
 void GRASP::resolver() {
   auto start = std::chrono::high_resolution_clock::now();
 
-  // Implementación del algoritmo GRASP
+  construccion();
 
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
   tiempo_ejecucion_ = elapsed.count();
+}
+
+/**
+ * @brief Construye la solución inicial utilizando el algoritmo GRASP.
+ * @return void
+ */
+void GRASP::construccion() {
+  std::vector<Punto> puntos_solucion;
+  std::vector<Punto> puntos_restantes = problema_.getPuntos();
+
+  Punto centro_gravedad = centroGravedad(puntos_restantes);
+  double distancia_maxima = 0;
+  int indice_punto_mas_alejado = 0;
+  while (puntos_solucion.size() < tamanio_solucion_) {
+    indice_punto_mas_alejado = 0;
+    distancia_maxima = 0;
+    std::sort(puntos_restantes.begin(), puntos_restantes.end(),
+              [centro_gravedad](const Punto& a, const Punto& b) {
+                return centro_gravedad.distancia(a) > centro_gravedad.distancia(b);
+              });
+    if (LRC_ > puntos_restantes.size()) {
+      std::srand(std::chrono::system_clock::now().time_since_epoch().count());
+      indice_punto_mas_alejado = std::rand() % puntos_restantes.size();
+        } else {
+      std::srand(std::chrono::system_clock::now().time_since_epoch().count());
+      indice_punto_mas_alejado = std::rand() % LRC_;
+    }
+    puntos_solucion.push_back(puntos_restantes[indice_punto_mas_alejado]);
+    puntos_restantes.erase(puntos_restantes.begin() + indice_punto_mas_alejado);
+    centro_gravedad = centroGravedad(puntos_solucion);
+  }
+
+  solucion_.setPuntos(puntos_solucion);
+  solucion_.calcularValorObjetivo();
 }

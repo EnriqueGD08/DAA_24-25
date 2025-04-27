@@ -38,8 +38,7 @@ class Solucion {
                                        valor_objetivo_ = calcularValorObjetivo(); }
   double calcularValorObjetivo();
   void clear() { puntos_.clear(); }
-
-  friend std::ostream& operator<<(std::ostream& os, const Solucion& solucion);
+  std::string toString() const;
 
  private:
   std::vector<Punto> puntos_ = {};

@@ -20,7 +20,13 @@ class GRASP : public Algoritmo {
   GRASP(Problema& problema) : Algoritmo(problema) {}
   ~GRASP() override = default;
 
+  int getLRC() const { return LRC_; }
+
+  void setLRC(int lrc) { LRC_ = lrc; }
+
   void resolver() override;
 
  private:
+  void construccion();
+  int LRC_ = 3;
 };
