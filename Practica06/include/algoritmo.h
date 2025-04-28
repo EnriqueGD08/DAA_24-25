@@ -35,6 +35,7 @@ class Algoritmo {
 
   virtual void resolver() = 0;
   Punto centroGravedad(const std::vector<Punto>& puntos);
+  virtual std::string toCSV() = 0;
 
  protected:
   Problema problema_;

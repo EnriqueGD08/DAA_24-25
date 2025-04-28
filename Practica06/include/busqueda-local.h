@@ -20,9 +20,19 @@ class BusquedaLocal : public Algoritmo {
   BusquedaLocal(Problema& problema) : Algoritmo(problema) {}
   ~BusquedaLocal() override = default;
 
+  int getLRC() const { return LRC_; }
+  int getMaxIteraciones() const { return max_iteraciones_; }
+
+  void setLRC(int lrc) { LRC_ = lrc; }
+  void setMaxIteraciones(int max_iteraciones) { max_iteraciones_ = max_iteraciones; }
+
   void resolver() override;
+  virtual std::string toCSV() override;
 
  private:
+  std::vector<Solucion> soluciones_ = {};
+  int LRC_ = 3;
+  int max_iteraciones_ = 10;
   void construccion(std::vector<Punto>& puntos_restantes);
   void busquedaLocal(std::vector<Punto>& puntos_restantes);
 };

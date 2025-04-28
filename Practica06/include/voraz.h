@@ -21,6 +21,7 @@ class Voraz : public Algoritmo {
   ~Voraz() override = default;
 
   void resolver() override;
+  virtual std::string toCSV() override;
 
  private:
   void construccion();

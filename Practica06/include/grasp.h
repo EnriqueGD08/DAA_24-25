@@ -25,6 +25,7 @@ class GRASP : public Algoritmo {
   void setLRC(int lrc) { LRC_ = lrc; }
 
   void resolver() override;
+  virtual std::string toCSV() override;
 
  private:
   void construccion();

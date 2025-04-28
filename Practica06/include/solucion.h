@@ -37,7 +37,7 @@ class Solucion {
   void pushPunto(const Punto& punto) { puntos_.push_back(punto); 
                                        valor_objetivo_ = calcularValorObjetivo(); }
   double calcularValorObjetivo();
-  void clear() { puntos_.clear(); }
+  void clear() { puntos_.clear(); valor_objetivo_ = 0.0; }
   std::string toString() const;
 
  private:

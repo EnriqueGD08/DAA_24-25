@@ -51,6 +51,10 @@ void ejecutarProgramaArchivo (char* argv[]) {
       LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[2]));
     }
 
+    std::ofstream salida_voraz("salida_voraz.csv");
+    std::ofstream salida_grasp("salida_grasp.csv");
+    std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+
     Problema problema(archivo);
     archivo.close();
 
@@ -58,16 +62,16 @@ void ejecutarProgramaArchivo (char* argv[]) {
     
     algoritmo = new Voraz(problema);
     algoritmo->resolver();
-    std::cout << "Solución Voraz: " << algoritmo->getSolucion().toString() << std::endl;
+    salida_voraz << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
 
     algoritmo = new GRASP(problema);
     dynamic_cast<GRASP*>(algoritmo)->setLRC(3);
     algoritmo->resolver();
-    std::cout << "Solución GRASP: " << algoritmo->getSolucion().toString() << std::endl;
+    salida_grasp << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
 
     algoritmo = new BusquedaLocal(problema);
     algoritmo->resolver();
-    std::cout << "Solución Búsqueda Local: " << algoritmo->getSolucion().toString() << std::endl;
+    salida_busqueda_local << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
 
     delete algoritmo;
 }
@@ -82,10 +86,12 @@ void ejecutarProgramaCarpeta (char* argv[]) {
   if (!std::filesystem::is_directory(carpeta)) {
     LANZAR_ERROR("No se pudo abrir la carpeta", "La carpeta que se intenta abrir es: " + std::string(argv[2]));
   }
+  std::ofstream salida_voraz("salida_voraz.csv");
+  std::ofstream salida_grasp("salida_grasp.csv");
+  std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
 
   for (const auto& archivo : std::filesystem::directory_iterator(carpeta)) {
     if (archivo.is_regular_file()) {
-      std::cout << "Procesando archivo: " << archivo.path().filename() << std::endl;
 
       try {
         std::ifstream archivo_entrada(archivo.path());
@@ -100,20 +106,28 @@ void ejecutarProgramaCarpeta (char* argv[]) {
         
         algoritmo = new Voraz(problema);
         algoritmo->resolver();
-        std::cout << "Solución Voraz: " << algoritmo->getSolucion().toString() << std::endl;
+        salida_voraz << archivo.path().filename() << ',' << algoritmo->toCSV() << std::endl;
+        
+        for (int lrc = 2; lrc <= 5; lrc++) {
+          algoritmo = new GRASP(problema);
+          dynamic_cast<GRASP*>(algoritmo)->setLRC(lrc);
+          algoritmo->resolver();
+          salida_grasp << archivo.path().filename()<< ',' << algoritmo->toCSV() << std::endl;
+        }
 
-        algoritmo = new GRASP(problema);
-        dynamic_cast<GRASP*>(algoritmo)->setLRC(3);
-        algoritmo->resolver();
-        std::cout << "Solución GRASP: " << algoritmo->getSolucion().toString() << std::endl;
-
-        algoritmo = new BusquedaLocal(problema);
-        algoritmo->resolver();
-        std::cout << "Solución Búsqueda Local: " << algoritmo->getSolucion().toString() << std::endl;
+        for (int lrc = 2; lrc <= 5; lrc++) {
+          for (int iteraciones = 10; iteraciones <= 50; iteraciones += 10) {
+            algoritmo = new BusquedaLocal(problema);
+            dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(iteraciones);
+            dynamic_cast<BusquedaLocal*>(algoritmo)->setLRC(lrc);
+            algoritmo->resolver();
+            salida_busqueda_local << archivo.path().filename() << ',' << iteraciones << ',' << algoritmo->toCSV() << std::endl;
+          }
+        }
 
         delete algoritmo;
       } catch (const std::exception& e) {
-          std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
       }
     }
   }

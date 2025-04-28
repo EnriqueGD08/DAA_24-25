@@ -116,7 +116,7 @@ std::string Punto::toString() const {
   for (size_t i = 0; i < coordenadas_.size(); ++i) {
     resultado += std::to_string(coordenadas_[i]);
     if (i < coordenadas_.size() - 1) {
-      resultado += ", ";
+      resultado += " | ";
     }
   }
   resultado += ")";
@@ -134,7 +134,7 @@ std::ostream& operator<<(std::ostream& os, const Punto& punto) {
   for (int i = 0; i < punto.coordenadas_.size(); ++i) {
     os << punto.coordenadas_[i];
     if (i < punto.coordenadas_.size() - 1) {
-      os << ", ";
+      os << " | ";
     }
   }
   os << ")";

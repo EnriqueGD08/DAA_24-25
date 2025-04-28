@@ -33,10 +33,9 @@ double Solucion::calcularValorObjetivo() {
  * @return representación en cadena de la solución.
  */
 std::string Solucion::toString() const {
-  std::string resultado = "Solución: \n";
+  std::string resultado = "";
   for (const auto& punto : puntos_) {
-    resultado += punto.toString() + "\n";
+    resultado += punto.toString() + ' ';
   }
-  resultado += "Valor objetivo: " + std::to_string(valor_objetivo_) + "\n";
   return resultado;
 }

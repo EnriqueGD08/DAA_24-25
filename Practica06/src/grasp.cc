@@ -60,3 +60,17 @@ void GRASP::construccion() {
   solucion_.setPuntos(puntos_solucion);
   solucion_.calcularValorObjetivo();
 }
+
+/**
+ * @brief Genera un archivo CSV con los resultados de la solución.
+ * @return void
+ */
+std::string GRASP::toCSV() {
+  return std::to_string(problema_.getNumeroPuntos()) + ',' + std::to_string(problema_.getDimensiones()) + ',' +
+         std::to_string(tamanio_solucion_) + ',' + std::to_string(LRC_) + ',' +
+         std::to_string(solucion_.getValorObjetivo()) + ',' + solucion_.toString() + ',' +
+         std::to_string(tiempo_ejecucion_);
+  std::cout << problema_.getNumeroPuntos() << ',' << problema_.getDimensiones() << ',' << tamanio_solucion_ 
+            << ',' << LRC_ << ',' << solucion_.getValorObjetivo() << ',' << solucion_.toString() << ','
+            << tiempo_ejecucion_;
+}
