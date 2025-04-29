@@ -25,13 +25,14 @@ class Error : public std::exception {
         const std::string& lugar = "")
       : mensaje_(mensaje), detalles_(detalles), lugar_(lugar)
   {
-      mensajeCompleto_ = "[ERROR] " + mensaje_;
+      mensajeCompleto_ = "\033[31m[ERROR] " + mensaje_; // Red color
       if (!detalles_.empty()) {
         mensajeCompleto_ += "\nDetalles: " + detalles_;
       }
       if (!lugar_.empty()) {
         mensajeCompleto_ += "\nLugar: " + lugar_;
       }
+      mensajeCompleto_ += "\033[0m"; // Reset color
   }
 
   const char* what() const noexcept override {

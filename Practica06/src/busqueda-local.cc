@@ -95,7 +95,6 @@ void BusquedaLocal::busquedaLocal(std::vector<Punto>& puntos_restantes) {
       if (nueva_solucion.getValorObjetivo() > mejor_valor_objetivo) {
         mejor_valor_objetivo = nueva_solucion.getValorObjetivo();
         mejor_indice = j;
-        break;
       }
 
       // Revertir el cambio

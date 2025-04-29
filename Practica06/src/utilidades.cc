@@ -26,15 +26,21 @@ void ussage(int argc, char* argv[]) {
     std::cout << "-c: Ejecutar el programa con una carpeta como parámetro." << std::endl;
     exit(EXIT_SUCCESS);
   }
-  if (argc != 3) {
+  if (argc != 4) {
     std::cerr << "Error: Número de argumentos incorrecto." << std::endl;
-    std::cerr << "Uso: " << argv[0] << " -a|-c" << " <archivo/carpeta>" << std::endl;
+    std::cerr << "Uso: " << argv[0] << " -a|-c" << " -t|-a"<< " <archivo/carpeta>" << std::endl;
     std::cerr << "Para más información, use: " << argv[0] << " -h" << std::endl;
     exit(EXIT_FAILURE);
   }
   if (std::string(argv[1]) != "-a" && std::string(argv[1]) != "-c") {
     std::cerr << "Error: Opción no válida." << std::endl;
-    std::cerr << "Uso: " << argv[0] << " -a|-c" << " <archivo/carpeta>" << std::endl;
+    std::cerr << "Uso: " << argv[0] << " -a|-c" << " -t|-a"<< " <archivo/carpeta>" << std::endl;
+    std::cerr << "Para más información, use: " << argv[0] << " -h" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  if (std::string(argv[2]) != "-t" && std::string(argv[2]) != "-a") {
+    std::cerr << "Error: El argumento proporcionado no es un archivo." << std::endl;
+    std::cerr << "Uso: " << argv[0] << " -a|-c" << " -t|-a"<< " <archivo/carpeta>" << std::endl;
     std::cerr << "Para más información, use: " << argv[0] << " -h" << std::endl;
     exit(EXIT_FAILURE);
   }
@@ -51,9 +57,15 @@ void ejecutarProgramaArchivo (char* argv[]) {
       LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[2]));
     }
 
-    std::ofstream salida_voraz("salida_voraz.csv");
-    std::ofstream salida_grasp("salida_grasp.csv");
-    std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+    if (std::string(argv[2]) == "-a") {
+      std::ofstream salida_voraz("salida_voraz.csv");
+      std::ofstream salida_grasp("salida_grasp.csv");
+      std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+
+      salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Puntos de solución,Valor Objetivo,Tiempo de Ejecución" << std::endl;
+      salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Puntos de solución,Valor Objetivo,Tiempo de Ejecución" << std::endl;
+      salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
+    
 
     Problema problema(archivo);
     archivo.close();
@@ -70,10 +82,15 @@ void ejecutarProgramaArchivo (char* argv[]) {
     salida_grasp << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
 
     algoritmo = new BusquedaLocal(problema);
+    dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(100000);
     algoritmo->resolver();
     salida_busqueda_local << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
 
     delete algoritmo;
+  } else if (std::string(argv[2]) == "-t") {
+    // Implementar para que la salida del programa sea por pantalla
+  }
+  archivo.close();
 }
 
 /**
@@ -89,6 +106,10 @@ void ejecutarProgramaCarpeta (char* argv[]) {
   std::ofstream salida_voraz("salida_voraz.csv");
   std::ofstream salida_grasp("salida_grasp.csv");
   std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+
+  salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
 
   for (const auto& archivo : std::filesystem::directory_iterator(carpeta)) {
     if (archivo.is_regular_file()) {
