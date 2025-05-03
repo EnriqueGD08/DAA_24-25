@@ -52,7 +52,7 @@ void ussage(int argc, char* argv[]) {
  * @return void
  */
 void ejecutarProgramaArchivo (char* argv[]) {
-    std::ifstream archivo(argv[2]);
+    std::ifstream archivo(argv[3]);
     if (!archivo.is_open()) {
       LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[2]));
     }
@@ -61,36 +61,56 @@ void ejecutarProgramaArchivo (char* argv[]) {
       std::ofstream salida_voraz("salida_voraz.csv");
       std::ofstream salida_grasp("salida_grasp.csv");
       std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+      std::ofstream salida_poda("salida_poda.csv");
 
-      salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Puntos de solución,Valor Objetivo,Tiempo de Ejecución" << std::endl;
-      salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Puntos de solución,Valor Objetivo,Tiempo de Ejecución" << std::endl;
-      salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
+      salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_poda << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Nodos Generados,Tiempo de Ejecución" << std::endl;
     
+      for (int tamnio_solucion = 2; tamnio_solucion <= 5; tamnio_solucion++) {
 
-    Problema problema(archivo);
-    archivo.close();
+        try {
 
-    Algoritmo* algoritmo;
-    
-    algoritmo = new Voraz(problema);
-    algoritmo->resolver();
-    salida_voraz << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
+          Problema problema(archivo);
 
-    algoritmo = new GRASP(problema);
-    dynamic_cast<GRASP*>(algoritmo)->setLRC(3);
-    algoritmo->resolver();
-    salida_grasp << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
+          Algoritmo* algoritmo;
+          
+          algoritmo = new Voraz(problema);
+          algoritmo->setTamanioSolucion(tamnio_solucion);
+          algoritmo->resolver();
+          salida_voraz << std::string(argv[3]) << ',' << algoritmo->toCSV() << std::endl;
+          
+          for (int lrc = 2; lrc <= 5; lrc++) {
+            algoritmo = new GRASP(problema);
+            algoritmo->setTamanioSolucion(tamnio_solucion);
+            dynamic_cast<GRASP*>(algoritmo)->setLRC(lrc);
+            algoritmo->resolver();
+            salida_grasp << std::string(argv[3]) << ',' << algoritmo->toCSV() << std::endl;
+          }
 
-    algoritmo = new BusquedaLocal(problema);
-    dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(100000);
-    algoritmo->resolver();
-    salida_busqueda_local << std::string(argv[2]) << ',' << algoritmo->toCSV() << std::endl;
+          for (int lrc = 2; lrc <= 5; lrc++) {
+            for (int iteraciones = 10; iteraciones <= 50; iteraciones += 10) {
+              algoritmo = new BusquedaLocal(problema);
+              algoritmo->setTamanioSolucion(tamnio_solucion);
+              dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(iteraciones);
+              dynamic_cast<BusquedaLocal*>(algoritmo)->setLRC(lrc);
+              algoritmo->resolver();
+              salida_busqueda_local << std::string(argv[3]) << ',' << iteraciones << ',' << algoritmo->toCSV() << std::endl;
+            }
+          }
 
-    delete algoritmo;
-  } else if (std::string(argv[2]) == "-t") {
-    // Implementar para que la salida del programa sea por pantalla
-  }
-  archivo.close();
+          algoritmo = new Poda(problema);
+          algoritmo->setTamanioSolucion(tamnio_solucion);
+          algoritmo->resolver();
+          salida_poda << std::string(argv[3]) << ',' << algoritmo->toCSV() << std::endl;
+
+          delete algoritmo;
+        } catch (const std::exception& e) {
+          std::cerr << e.what() << std::endl;
+        }
+      }
+    }
 }
 
 /**
@@ -99,56 +119,70 @@ void ejecutarProgramaArchivo (char* argv[]) {
  * @return void
  */
 void ejecutarProgramaCarpeta (char* argv[]) {
-  std::filesystem::path carpeta(argv[2]);
+  std::filesystem::path carpeta(argv[3]);
   if (!std::filesystem::is_directory(carpeta)) {
     LANZAR_ERROR("No se pudo abrir la carpeta", "La carpeta que se intenta abrir es: " + std::string(argv[2]));
   }
   std::ofstream salida_voraz("salida_voraz.csv");
   std::ofstream salida_grasp("salida_grasp.csv");
   std::ofstream salida_busqueda_local("salida_busqueda_local.csv");
+  std::ofstream salida_poda("salida_poda.csv");
 
   salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
   salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
   salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
+  salida_poda << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Nodos Generados,Tiempo de Ejecución" << std::endl;
 
   for (const auto& archivo : std::filesystem::directory_iterator(carpeta)) {
+    
     if (archivo.is_regular_file()) {
 
-      try {
-        std::ifstream archivo_entrada(archivo.path());
-        if (!archivo_entrada.is_open()) {
-          LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + archivo.path().string());
-        }
+      for (int tamnio_solucion = 2; tamnio_solucion <= 5; tamnio_solucion++) {
 
-        Problema problema(archivo_entrada);
-        archivo_entrada.close();
-
-        Algoritmo* algoritmo;
-        
-        algoritmo = new Voraz(problema);
-        algoritmo->resolver();
-        salida_voraz << archivo.path().filename() << ',' << algoritmo->toCSV() << std::endl;
-        
-        for (int lrc = 2; lrc <= 5; lrc++) {
-          algoritmo = new GRASP(problema);
-          dynamic_cast<GRASP*>(algoritmo)->setLRC(lrc);
-          algoritmo->resolver();
-          salida_grasp << archivo.path().filename()<< ',' << algoritmo->toCSV() << std::endl;
-        }
-
-        for (int lrc = 2; lrc <= 5; lrc++) {
-          for (int iteraciones = 10; iteraciones <= 50; iteraciones += 10) {
-            algoritmo = new BusquedaLocal(problema);
-            dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(iteraciones);
-            dynamic_cast<BusquedaLocal*>(algoritmo)->setLRC(lrc);
-            algoritmo->resolver();
-            salida_busqueda_local << archivo.path().filename() << ',' << iteraciones << ',' << algoritmo->toCSV() << std::endl;
+        try {
+          std::ifstream archivo_entrada(archivo.path());
+          if (!archivo_entrada.is_open()) {
+            LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + archivo.path().string());
           }
-        }
 
-        delete algoritmo;
-      } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+          Problema problema(archivo_entrada);
+          archivo_entrada.close();
+
+          Algoritmo* algoritmo;
+          
+          algoritmo = new Voraz(problema);
+          algoritmo->setTamanioSolucion(tamnio_solucion);
+          algoritmo->resolver();
+          salida_voraz << archivo.path().filename() << ',' << algoritmo->toCSV() << std::endl;
+          
+          for (int lrc = 2; lrc <= 5; lrc++) {
+            algoritmo = new GRASP(problema);
+            algoritmo->setTamanioSolucion(tamnio_solucion);
+            dynamic_cast<GRASP*>(algoritmo)->setLRC(lrc);
+            algoritmo->resolver();
+            salida_grasp << archivo.path().filename()<< ',' << algoritmo->toCSV() << std::endl;
+          }
+
+          for (int lrc = 2; lrc <= 5; lrc++) {
+            for (int iteraciones = 10; iteraciones <= 50; iteraciones += 10) {
+              algoritmo = new BusquedaLocal(problema);
+              algoritmo->setTamanioSolucion(tamnio_solucion);
+              dynamic_cast<BusquedaLocal*>(algoritmo)->setMaxIteraciones(iteraciones);
+              dynamic_cast<BusquedaLocal*>(algoritmo)->setLRC(lrc);
+              algoritmo->resolver();
+              salida_busqueda_local << archivo.path().filename() << ',' << iteraciones << ',' << algoritmo->toCSV() << std::endl;
+            }
+          }
+
+          algoritmo = new Poda(problema);
+          algoritmo->setTamanioSolucion(tamnio_solucion);
+          algoritmo->resolver();
+          salida_poda << archivo.path().filename() << ',' << algoritmo->toCSV() << std::endl;
+
+          delete algoritmo;
+        } catch (const std::exception& e) {
+          std::cerr << e.what() << std::endl;
+        }
       }
     }
   }

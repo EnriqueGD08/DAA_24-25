@@ -77,7 +77,7 @@ int Punto::getDimensiones() const {
  */
 double Punto::distancia(const Punto& otro) const {
   if (coordenadas_.size() != otro.coordenadas_.size()) {
-    LANZAR_ERROR("Error en las dimensiones", "Los puntos tienen diferentes dimensiones");
+    LANZAR_ERROR("Error en las dimensiones", "Los puntos tienen diferentes dimensiones " + std::to_string(coordenadas_.size()) + " y " + std::to_string(otro.coordenadas_.size()));
   }
 
   double suma = 0;
@@ -139,4 +139,21 @@ std::ostream& operator<<(std::ostream& os, const Punto& punto) {
   }
   os << ")";
   return os;
+}
+
+/**
+ * @brief Sobrecarga del operador de igualdad para comparar puntos.
+ * @param otro Otro punto.
+ * @return true si los puntos son iguales, false en caso contrario.
+ */
+bool Punto::operator==(const Punto& otro) const {
+  if (coordenadas_.size() != otro.coordenadas_.size()) {
+    return false;
+  }
+  for (int i = 0; i < coordenadas_.size(); ++i) {
+    if (coordenadas_[i] != otro.coordenadas_[i]) {
+      return false;
+    }
+  }
+  return true;
 }

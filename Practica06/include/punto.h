@@ -29,7 +29,9 @@ class Punto {
   void setCoordenada(int i, double valor);
 
   int getDimensiones() const;
+  int getId() const { return id_; }
   void setDimensiones(int dimensiones);
+  void setId(int id) { id_ = id; }
 
   double distancia(const Punto& otro) const;
   double distancia(const std::vector<Punto>& puntos) const;
@@ -37,7 +39,9 @@ class Punto {
   std::string toString() const;
 
   friend std::ostream& operator<<(std::ostream& os, const Punto& punto);
+  bool operator==(const Punto& otro) const;
  
  private:
+  int id_ = 0;
   std::vector<double> coordenadas_ = {};
 };

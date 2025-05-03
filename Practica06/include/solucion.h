@@ -39,6 +39,7 @@ class Solucion {
   double calcularValorObjetivo();
   void clear() { puntos_.clear(); valor_objetivo_ = 0.0; }
   std::string toString() const;
+  std::string getIndices() const;
 
  private:
   std::vector<Punto> puntos_ = {};

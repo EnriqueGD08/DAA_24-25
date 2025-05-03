@@ -39,3 +39,15 @@ std::string Solucion::toString() const {
   }
   return resultado;
 }
+
+/**
+ * @brief devuelve una representación en cadena de los índices de los puntos de la solución.
+ * @return representación en cadena de los índices de los puntos de la solución.
+ */
+std::string Solucion::getIndices() const {
+  std::string resultado = "";
+  for (const auto& punto : puntos_) {
+    resultado += std::to_string(punto.getId()) + ' ';
+  }
+  return resultado;
+}

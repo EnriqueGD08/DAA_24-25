@@ -62,7 +62,10 @@ void Voraz::construccion() {
  * @return void
  */
 std::string Voraz::toCSV() {
-  return std::to_string(problema_.getNumeroPuntos()) + ',' + std::to_string(problema_.getDimensiones()) + ',' +
-         std::to_string(tamanio_solucion_) + ',' + std::to_string(solucion_.getValorObjetivo()) + ',' +
-         solucion_.toString() + ',' + std::to_string(tiempo_ejecucion_);
+  return std::to_string(problema_.getNumeroPuntos()) + ',' +
+         std::to_string(problema_.getDimensiones()) + ',' +
+         std::to_string(tamanio_solucion_) + ',' +
+         std::to_string(solucion_.getValorObjetivo()) + ',' +
+         solucion_.toString() + ',' +
+         std::to_string(tiempo_ejecucion_);
 }

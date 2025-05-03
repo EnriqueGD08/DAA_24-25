@@ -22,6 +22,7 @@
 #include "grasp.h"
 #include "problema.h"
 #include "voraz.h"
+#include "poda.h"
 
 void ussage(int argc, char* argv[]);
 void ejecutarProgramaArchivo (char* argv[]);

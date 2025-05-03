@@ -139,71 +139,71 @@ void print_solution(std::string algorithm, std::string input_file, int m) {
 }
 
 int main() {
-  std::cout << PINK "\n------------------------- Greedy -------------------------\n" NC << std::endl;
+  // std::cout << PINK "\n------------------------- Greedy -------------------------\n" NC << std::endl;
   std::string algorithm = "greedy";
   std::string input_file = "./inputs/max_div_30_2.txt";
-  execute(algorithm, input_file);
-
-  // input_file = "./inputs/max_div_15_3.txt";
   // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_2.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_15_3.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_20_2.txt";
+  // // execute(algorithm, input_file);
 
+  // // input_file = "./inputs/max_div_20_3.txt";
+  // // execute(algorithm, input_file);
+
+  // // input_file = "./inputs/max_div_30_2.txt";
+  // // execute(algorithm, input_file);
+
+  // // input_file = "./inputs/max_div_30_3.txt";
+  // // execute(algorithm, input_file);
+
+  // std::cout << PINK "\n---------------------- Local Search ----------------------\n" NC << std::endl;
+  // algorithm = "local-search";
   // input_file = "./inputs/max_div_30_2.txt";
   // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_30_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_15_3.txt";
+  // // execute(algorithm, input_file);
 
-  std::cout << PINK "\n---------------------- Local Search ----------------------\n" NC << std::endl;
-  algorithm = "local-search";
-  input_file = "./inputs/max_div_30_2.txt";
-  execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_20_2.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_15_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_20_3.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_2.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_30_2.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_30_3.txt";
+  // // execute(algorithm, input_file);
 
+
+  // std::cout << PINK "\n------------------------- Grasp --------------------------\n" NC << std::endl;
+  // algorithm = "grasp";
   // input_file = "./inputs/max_div_30_2.txt";
   // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_30_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_15_3.txt";
+  // // execute(algorithm, input_file);
 
+  // // input_file = "./inputs/max_div_20_2.txt";
+  // // execute(algorithm, input_file);
 
-  std::cout << PINK "\n------------------------- Grasp --------------------------\n" NC << std::endl;
-  algorithm = "grasp";
-  input_file = "./inputs/max_div_30_2.txt";
-  execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_20_3.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_15_3.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_30_2.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_2.txt";
-  // execute(algorithm, input_file);
+  // // input_file = "./inputs/max_div_30_3.txt";
+  // // execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_3.txt";
-  // execute(algorithm, input_file);
-
+  // std::cout << PINK "\n----------------------- Tabu Search ----------------------\n" NC << std::endl;
+  // algorithm = "tabu-search";
   // input_file = "./inputs/max_div_30_2.txt";
   // execute(algorithm, input_file);
-
-  // input_file = "./inputs/max_div_30_3.txt";
-  // execute(algorithm, input_file);
-
-  std::cout << PINK "\n----------------------- Tabu Search ----------------------\n" NC << std::endl;
-  algorithm = "tabu-search";
-  input_file = "./inputs/max_div_30_2.txt";
-  execute(algorithm, input_file);
 
   // input_file = "./inputs/max_div_15_3.txt";
   // execute(algorithm, input_file);
@@ -225,19 +225,19 @@ int main() {
   input_file = "./inputs/max_div_30_2.txt";
   execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_15_3.txt";
-  // execute(algorithm, input_file);
+  input_file = "./inputs/max_div_15_3.txt";
+  execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_2.txt";
-  // execute(algorithm, input_file);
+  input_file = "./inputs/max_div_20_2.txt";
+  execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_20_3.txt";
-  // execute(algorithm, input_file);
+  input_file = "./inputs/max_div_20_3.txt";
+  execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_30_2.txt";
-  // execute(algorithm, input_file);
+  input_file = "./inputs/max_div_30_2.txt";
+  execute(algorithm, input_file);
 
-  // input_file = "./inputs/max_div_30_3.txt";
-  // execute(algorithm, input_file);
+  input_file = "./inputs/max_div_30_3.txt";
+  execute(algorithm, input_file);
   return 0;
 }

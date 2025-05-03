@@ -39,7 +39,7 @@ Problema::Problema(std::ifstream& archivo) {
   if (numero_puntos_ <= 0 || dimensiones_ <= 0) {
     LANZAR_ERROR("Error en el formato del archivo", "El número de puntos o dimensiones es incorrecto");
   }
-
+  int id = 0;
   while(std::getline(archivo, linea)) {
     if (linea.empty() || std::all_of(linea.begin(), linea.end(), isspace)) {
       continue; // Ignorar líneas vacías o que solo tengan blancos
@@ -48,6 +48,7 @@ Problema::Problema(std::ifstream& archivo) {
 
     std::istringstream iss(linea);
     Punto punto;
+    punto.setId(id);
     
     for (int i = 0; i < dimensiones_; i++) {
       double coordenada;
@@ -56,6 +57,7 @@ Problema::Problema(std::ifstream& archivo) {
       }
       punto.pushCoordenada(coordenada);
     }
+    id++;
     puntos_.push_back(punto);
   }
 
