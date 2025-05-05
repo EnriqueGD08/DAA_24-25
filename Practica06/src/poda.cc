@@ -44,7 +44,8 @@ void Poda::poda() {
                                        puntos_restantes.end(), 
                                        punto), 
                             puntos_restantes.end());
-    if (calcularMaximo(puntos_solucion) <= cota_superior_ && calcularMaximo(puntos_solucion) > cota_inferior_) {
+    if (calcularMaximo(puntos_solucion, puntos_restantes) <= cota_superior_ &&
+        calcularMaximo(puntos_solucion, puntos_restantes) > cota_inferior_) {
       crearNodo(puntos_solucion, puntos_restantes);
     }
   }
@@ -81,7 +82,8 @@ void Poda::crearNodo(std::vector<Punto>& puntos_solucion,
                                               puntos_restantes_nodo.end(), 
                                               punto), 
                                    puntos_restantes_nodo.end());
-      if (calcularMaximo(puntos_solucion_nodo) <= cota_superior_ && calcularMaximo(puntos_solucion_nodo) > cota_inferior_) {
+      if (calcularMaximo(puntos_solucion_nodo, puntos_restantes_nodo) <= cota_superior_ &&
+          calcularMaximo(puntos_solucion_nodo, puntos_restantes_nodo) > cota_inferior_) {
         nodos_creados_++;
         crearNodo(puntos_solucion_nodo, puntos_restantes_nodo);
       }
@@ -147,19 +149,35 @@ void Poda::calcularCotaInferior() {
  * @param puntos Vector de puntos.
  * @return El máximo de los puntos.
  */
-double Poda::calcularMaximo(const std::vector<Punto>& puntos) {
-  double maximo = 0;
+double Poda::calcularMaximo(const std::vector<Punto>& puntos, const std::vector<Punto>& puntos_restantes) {
+  std::vector<double> maximo = {};
+
+  for (size_t i = 0; i < puntos.size() - 1; ++i) {
+    for (size_t j = 0; j < puntos_restantes.size(); ++j) {
+      maximo.push_back(puntos[i].distancia(puntos_restantes[j]));
+    }
+  }
+
+  sort(maximo.begin(), maximo.end(),
+       [](const double& a, const double& b) { return a > b; });
+
+  double resultado = 0;
 
   for (size_t i = 0; i < tamanio_solucion_ - 1; ++i) {
     for (size_t j = i + 1; j < tamanio_solucion_; ++j) {
       if (i < puntos.size() && j < puntos.size()) {
-        maximo += puntos[i].distancia(puntos[j]);
+        resultado += puntos[i].distancia(puntos[j]);
       } else {
-        maximo += distancia_maxima_;
+        if (maximo.empty()) {
+          resultado += distancia_maxima_;
+        } else {
+          resultado += maximo[0];
+          maximo.erase(maximo.begin());
+        }
       }
     }
   }
-  return maximo;
+  return resultado;
 }
 
 

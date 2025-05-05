@@ -147,7 +147,7 @@ std::ostream& operator<<(std::ostream& os, const Punto& punto) {
  * @return true si los puntos son iguales, false en caso contrario.
  */
 bool Punto::operator==(const Punto& otro) const {
-  if (coordenadas_.size() != otro.coordenadas_.size()) {
+  if (coordenadas_.size() != otro.coordenadas_.size() || id_ != otro.id_) {
     return false;
   }
   for (int i = 0; i < coordenadas_.size(); ++i) {
@@ -156,4 +156,17 @@ bool Punto::operator==(const Punto& otro) const {
     }
   }
   return true;
+}
+
+/**
+ * @brief Sobrecarga del operador de asignación para copiar puntos.
+ * @param otro Otro punto.
+ * @return Referencia al punto actual.
+ */
+Punto& Punto::operator=(const Punto& otro) {
+  if (this != &otro) {
+    coordenadas_ = otro.coordenadas_;
+    id_ = otro.id_;
+  }
+  return *this;
 }

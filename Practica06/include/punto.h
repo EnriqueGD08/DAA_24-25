@@ -40,6 +40,7 @@ class Punto {
 
   friend std::ostream& operator<<(std::ostream& os, const Punto& punto);
   bool operator==(const Punto& otro) const;
+  Punto& operator=(const Punto& otro);
  
  private:
   int id_ = 0;

@@ -71,6 +71,6 @@ std::string GRASP::toCSV() {
          std::to_string(tamanio_solucion_) + ',' +
          std::to_string(LRC_) + ',' +
          std::to_string(solucion_.getValorObjetivo()) + ',' +
-         solucion_.toString() + ',' +
+         solucion_.getIndices() + ',' +
          std::to_string(tiempo_ejecucion_);
 }

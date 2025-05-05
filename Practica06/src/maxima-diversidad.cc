@@ -25,7 +25,7 @@ int main (int argc, char* argv[]) {
   try {
     if (std::string(argv[1]) == "-a") {
       ejecutarProgramaArchivo(argv);
-    } else{
+    } else {
       ejecutarProgramaCarpeta(argv);
     }
   } catch (const std::exception& e) {

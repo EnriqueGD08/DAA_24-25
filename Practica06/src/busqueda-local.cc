@@ -118,8 +118,12 @@ void BusquedaLocal::busquedaLocal(std::vector<Punto>& puntos_restantes) {
  * @return void
  */
 std::string BusquedaLocal::toCSV() {
-  return std::to_string(problema_.getNumeroPuntos()) + ',' + std::to_string(problema_.getDimensiones()) + ',' +
-         std::to_string(tamanio_solucion_) + ',' + std::to_string(LRC_) + ',' +
-         std::to_string(solucion_.getValorObjetivo()) + ',' + std::to_string(max_iteraciones_) + ',' +
-         solucion_.toString() + ',' + std::to_string(tiempo_ejecucion_);
+  return std::to_string(problema_.getNumeroPuntos()) + ',' +
+         std::to_string(problema_.getDimensiones()) + ',' +
+         std::to_string(tamanio_solucion_) + ',' + 
+         std::to_string(LRC_) + ',' +
+         std::to_string(solucion_.getValorObjetivo()) + ',' +
+         std::to_string(max_iteraciones_) + ',' +
+         solucion_.getIndices() + ',' + 
+         std::to_string(tiempo_ejecucion_);
 }

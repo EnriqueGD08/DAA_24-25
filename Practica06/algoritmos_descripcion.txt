@@ -1,0 +1,71 @@
+Algoritmos de la Práctica 6
+
+Informe sobre los Algoritmos de la Práctica 6
+
+En esta práctica se han implementado y analizado cuatro algoritmos diferentes para resolver el problema de máxima diversidad. A continuación, se describe en detalle el funcionamiento de cada uno de ellos, sus características principales y su clasificación como algoritmos exactos o aproximados.
+
+1. Algoritmo Voraz
+El algoritmo voraz es una técnica heurística que se basa en construir una solución de manera iterativa, seleccionando en cada paso el elemento que parece ser el mejor según un criterio local. En el contexto del problema de máxima diversidad, este algoritmo comienza seleccionando un punto inicial y, a partir de ahí, añade iterativamente el punto más alejado del centro de gravedad de los puntos ya seleccionados. Este proceso se repite hasta que se alcanza el tamaño deseado de la solución.
+
+El centro de gravedad se recalcula en cada iteración para reflejar la posición promedio de los puntos seleccionados hasta el momento. Este enfoque permite que el algoritmo priorice la inclusión de puntos que maximicen la diversidad en cada paso.
+
+Aunque el algoritmo voraz es rápido y sencillo de implementar, no garantiza encontrar la solución óptima. Esto se debe a que toma decisiones basadas únicamente en información local, sin considerar el impacto global de esas decisiones. Por esta razón, se clasifica como un algoritmo aproximado.
+
+2. Algoritmo GRASP (Greedy Randomized Adaptive Search Procedure)
+El algoritmo GRASP combina elementos de construcción voraz con un componente aleatorio para diversificar las soluciones iniciales. En cada iteración, el algoritmo ordena los puntos restantes según su distancia al centro de gravedad de los puntos seleccionados. Sin embargo, en lugar de elegir siempre el punto más alejado, selecciona aleatoriamente un punto de una lista restringida de candidatos (LRC, por sus siglas en inglés).
+
+La lista restringida de candidatos incluye los puntos que tienen las mayores distancias al centro de gravedad, pero introduce un grado de aleatoriedad al proceso de selección. Esto permite explorar diferentes regiones del espacio de búsqueda y evita que el algoritmo se quede atrapado en soluciones subóptimas.
+
+El algoritmo GRASP es una metaheurística que no garantiza encontrar la solución óptima, pero es eficaz para generar soluciones iniciales diversas que pueden ser mejoradas posteriormente. Por lo tanto, también se clasifica como un algoritmo aproximado.
+
+3. Algoritmo de Búsqueda Local
+La búsqueda local es una técnica de optimización que parte de una solución inicial y realiza pequeñas modificaciones para mejorarla. En este caso, la solución inicial puede ser generada por un algoritmo voraz o GRASP. A partir de ahí, el algoritmo evalúa intercambios entre puntos de la solución actual y puntos que no están en la solución.
+
+Si un intercambio mejora el valor objetivo (en este caso, la diversidad), se acepta y se actualiza la solución. Este proceso se repite hasta que no se encuentran mejoras adicionales o se alcanza un número máximo de iteraciones.
+
+Aunque la búsqueda local es eficaz para mejorar soluciones iniciales, tiene la limitación de que puede quedarse atrapada en óptimos locales. Esto significa que no siempre encuentra la mejor solución posible. Por esta razón, se clasifica como un algoritmo aproximado.
+
+4. Algoritmo de Poda
+El algoritmo de poda utiliza un enfoque de búsqueda en árbol para explorar todas las posibles soluciones al problema. En cada nodo del árbol, se calcula una cota superior e inferior para determinar si es necesario seguir explorando esa rama. Si una rama no puede contener la solución óptima, se descarta (o poda), lo que reduce significativamente el espacio de búsqueda.
+
+Este enfoque garantiza encontrar la solución óptima, ya que explora todas las posibilidades de manera sistemática. Sin embargo, su complejidad puede ser prohibitiva para problemas de gran tamaño, ya que el número de soluciones posibles crece exponencialmente con el tamaño del problema.
+
+El algoritmo de poda es un ejemplo de un algoritmo exacto, ya que siempre encuentra la mejor solución posible, aunque a costa de un mayor tiempo de ejecución en comparación con los algoritmos aproximados.
+
+Descripción de las instancias del programa
+
+El programa trabaja con instancias que representan problemas de máxima diversidad. Cada instancia está definida por un conjunto de puntos en un espacio multidimensional, donde cada punto tiene un identificador único y un conjunto de coordenadas. Las instancias se encuentran en la carpeta `instances/` y están organizadas en archivos de texto con el siguiente formato:
+
+1. **Primera línea**: Número total de puntos en la instancia.
+2. **Segunda línea**: Número de dimensiones de cada punto.
+3. **Líneas siguientes**: Coordenadas de cada punto, separadas por espacios. Cada línea representa un punto.
+
+### Ejemplo de formato de instancia
+```
+5
+3
+1.0 2.0 3.0
+4.0 5.0 6.0
+7.0 8.0 9.0
+10.0 11.0 12.0
+13.0 14.0 15.0
+```
+En este ejemplo:
+- Hay 5 puntos.
+- Cada punto tiene 3 dimensiones.
+- Las coordenadas de los puntos están listadas línea por línea.
+
+### Archivos de instancia disponibles
+En la carpeta `instances/` se encuentran los siguientes archivos de instancias:
+- `max_div_15_2.txt`: 15 puntos en un espacio de 2 dimensiones.
+- `max_div_15_3.txt`: 15 puntos en un espacio de 3 dimensiones.
+- `max_div_20_2.txt`: 20 puntos en un espacio de 2 dimensiones.
+- `max_div_20_3.txt`: 20 puntos en un espacio de 3 dimensiones.
+- `max_div_30_2.txt`: 30 puntos en un espacio de 2 dimensiones.
+- `max_div_30_3.txt`: 30 puntos en un espacio de 3 dimensiones.
+
+### Uso de las instancias
+El programa puede procesar estas instancias para resolver problemas de máxima diversidad utilizando diferentes algoritmos, como Voraz, GRASP, Búsqueda Local y Poda. Los resultados se almacenan en archivos CSV que incluyen información sobre el valor objetivo, los puntos seleccionados y el tiempo de ejecución.
+
+Conclusión
+En esta práctica se han explorado tanto algoritmos exactos como aproximados para resolver el problema de máxima diversidad. Los algoritmos aproximados, como el voraz, GRASP y la búsqueda local, son útiles para obtener soluciones rápidas y razonablemente buenas, especialmente en problemas grandes donde los algoritmos exactos pueden ser demasiado lentos. Por otro lado, el algoritmo de poda es ideal para problemas más pequeños o cuando se requiere garantizar la solución óptima.

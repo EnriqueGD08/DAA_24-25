@@ -52,11 +52,6 @@ void ussage(int argc, char* argv[]) {
  * @return void
  */
 void ejecutarProgramaArchivo (char* argv[]) {
-    std::ifstream archivo(argv[3]);
-    if (!archivo.is_open()) {
-      LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[2]));
-    }
-
     if (std::string(argv[2]) == "-a") {
       std::ofstream salida_voraz("salida_voraz.csv");
       std::ofstream salida_grasp("salida_grasp.csv");
@@ -64,15 +59,20 @@ void ejecutarProgramaArchivo (char* argv[]) {
       std::ofstream salida_poda("salida_poda.csv");
 
       salida_voraz << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
-  salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
-  salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
-  salida_poda << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Nodos Generados,Tiempo de Ejecución" << std::endl;
+      salida_grasp << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Puntos de solución,Tiempo de Ejecución" << std::endl;
+      salida_busqueda_local << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,LRC,Valor Objetivo,Iteraciones,Puntos de solución,Tiempo de Ejecución" << std::endl;
+      salida_poda << "Archivo,Número de puntos,Dimensiones,Tamaño de solución,Valor Objetivo,Puntos de solución,Nodos Generados,Tiempo de Ejecución" << std::endl;
     
       for (int tamnio_solucion = 2; tamnio_solucion <= 5; tamnio_solucion++) {
 
         try {
+          std::ifstream archivo(argv[3]);
+          if (!archivo.is_open()) {
+            LANZAR_ERROR("No se pudo abrir el archivo", "El archivo que se intenta abrir es: " + std::string(argv[3]));
+          }
 
           Problema problema(archivo);
+          archivo.close();
 
           Algoritmo* algoritmo;
           
@@ -110,7 +110,10 @@ void ejecutarProgramaArchivo (char* argv[]) {
           std::cerr << e.what() << std::endl;
         }
       }
+    } else if (std::string(argv[2]) == "-t") {
+      //Implementación del programa para que la salida sea por la terminal
     }
+      
 }
 
 /**

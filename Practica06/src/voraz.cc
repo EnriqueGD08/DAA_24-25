@@ -66,6 +66,6 @@ std::string Voraz::toCSV() {
          std::to_string(problema_.getDimensiones()) + ',' +
          std::to_string(tamanio_solucion_) + ',' +
          std::to_string(solucion_.getValorObjetivo()) + ',' +
-         solucion_.toString() + ',' +
+         solucion_.getIndices() + ',' +
          std::to_string(tiempo_ejecucion_);
 }

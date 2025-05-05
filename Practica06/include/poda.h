@@ -27,7 +27,8 @@ class Poda : public Algoritmo {
   void poda();
   void calcularCotaSuperior();
   void calcularCotaInferior();
-  double calcularMaximo(const std::vector<Punto>& puntos);
+  double calcularMaximo(const std::vector<Punto>& puntos,
+                        const std::vector<Punto>& puntos_restantes);
   void crearNodo(std::vector<Punto>& puntos_solucion, 
                  std::vector<Punto>& puntos_restantes);
   int nodos_creados_ = 0;
